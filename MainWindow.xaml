@@ -155,7 +155,7 @@
             </TabItem>
             <TabItem Header="Настройки (тест)">
                 <Grid Background="#FFE5E5E5">
-                    <CheckBox x:Name="Chb_Settings_RunOnStartup" Content="Запускать при старте Windows" HorizontalAlignment="Left" Margin="39,317,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="Chb_Settings_RunOnStartup" Content="Запускать при старте Windows" HorizontalAlignment="Left" Margin="36,365,0,0" VerticalAlignment="Top"/>
                     <Button x:Name="Btn_SaveSettings" Content="Сохранить" HorizontalAlignment="Left" Margin="647,317,0,0" VerticalAlignment="Top" Width="75" Click="Btn_SaveSettings_Click"/>
                     <TextBox x:Name="Tb_Settings_VID" HorizontalAlignment="Left" Height="23" Margin="71,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="0665" PreviewTextInput="Tb_Settings_VID_PreviewTextInput" />
                     <TextBox x:Name="Tb_Settings_PID" HorizontalAlignment="Left" Height="23" Margin="71,101,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="5161" PreviewTextInput="Tb_Settings_PID_PreviewTextInput" />
@@ -174,11 +174,15 @@
                     <Label Content="При разряде батареи до" HorizontalAlignment="Left" Margin="342,93,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="Tb_ShutdownVoltage" HorizontalAlignment="Left" Height="23" Margin="487,93,0,0" TextWrapping="Wrap" Text="10.4" VerticalAlignment="Top" Width="56"/>
                     <Button x:Name="Btn_About" Content="О программе" HorizontalAlignment="Left" Margin="473,333,0,0" VerticalAlignment="Top" Width="95" Click="Btn_About_Click"/>
+                    <CheckBox x:Name="Chb_Settings_AlwaysOnTop" Content="Поверх всех окон" HorizontalAlignment="Left" Margin="330,242,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="Tb_Settings_UpsVA" HorizontalAlignment="Left" Height="23" Margin="129,303,0,0" TextWrapping="Wrap" Text="1050" VerticalAlignment="Top" Width="62"/>
+                    <Label Content="Мощность ИБП, ВА" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Debug">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Label" HorizontalAlignment="Left" Margin="90,142,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="Btn_Debug" Content="debug" HorizontalAlignment="Left" Margin="215,127,0,0" VerticalAlignment="Top" Width="75" Click="Btn_Debug_Click"/>
                 </Grid>
             </TabItem>
 

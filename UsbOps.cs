@@ -8,7 +8,7 @@ namespace MegatecUpsController
     static class UsbOps
     {
 
-        public static UsbHidPort usb;
+        public static UsbHidPort usb = new UsbHidPort();
         private static Timer timerUSB;
         private static string rawDataDecoded = "";
 
@@ -17,7 +17,6 @@ namespace MegatecUpsController
 
         static UsbOps()
         {
-            usb = new UsbHidPort();
             usb.OnSpecifiedDeviceArrived += new System.EventHandler(Usb_OnSpecifiedDeviceArrived);
             usb.OnSpecifiedDeviceRemoved += new System.EventHandler(Usb_OnSpecifiedDeviceRemoved);
             usb.OnDataSend += new System.EventHandler(Usb_OnDataSend);
@@ -26,15 +25,19 @@ namespace MegatecUpsController
 
         public static void SetupUsbDevice(Int32 vid, Int32 pid)
         {
+            StopUsbTimer();
+
             usb.VendorId = vid;
             usb.ProductId = pid;
-            usb.CheckDevicePresent();
+
+            usb.Open(true);
+
+            TimerCallback tm = new TimerCallback(TimerActionSendQ1);
+            timerUSB = new Timer(tm, null, 0, 1000);
 
             if (usb.SpecifiedDevice != null)
             {
                 UpsData.StatusLine = "ИБП подключён";
-                TimerCallback tm = new TimerCallback(TimerActionSendQ1);
-                timerUSB = new Timer(tm, null, 0, 1000);
             }
             else
             {
@@ -71,11 +74,13 @@ namespace MegatecUpsController
         private static void Usb_OnSpecifiedDeviceArrived(object sender, EventArgs e)
         {
             //device found
+            UpsData.StatusLine = "ИБП подключён";
         }
 
         private static void Usb_OnSpecifiedDeviceRemoved(object sender, EventArgs e)
         {
             //device lost
+            UpsData.StatusLine = "ИБП недоступен";
         }
 
         private static void Usb_OnDataSend(object sender, EventArgs e)

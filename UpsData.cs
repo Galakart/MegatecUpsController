@@ -42,6 +42,7 @@ namespace MegatecUpsController
         public static float BatteryVoltageMax { private get; set; }
         public static float BatteryVoltageMin { private get; set; }
         public static float BatteryVoltageMaxOnLoad { private get; set; }
+        public static float UpsVA { private get; set; }
 
         // Common data
         public static string RawInputData { get; private set; }
@@ -74,14 +75,17 @@ namespace MegatecUpsController
             Temperature = float.Parse(arrayOfData[6], CultureInfo.InvariantCulture.NumberFormat);
             BinaryStatus = arrayOfData[7];
 
-            if (BinaryStatus[0].Equals('1')) IsUtilityFail = true; else IsUtilityFail = false;
-            if (BinaryStatus[1].Equals('1')) IsBatteryLow = true; else IsBatteryLow = false;
-            if (BinaryStatus[2].Equals('1')) IsActiveAVR = true; else IsActiveAVR = false;
-            if (BinaryStatus[3].Equals('1')) IsUpsFailed = true; else IsUpsFailed = false;
-            if (BinaryStatus[4].Equals('1')) IsStandby = true; else IsStandby = false;
-            if (BinaryStatus[5].Equals('1')) IsTestInProgress = true; else IsTestInProgress = false;
-            if (BinaryStatus[6].Equals('1')) IsShutdownActive = true; else IsShutdownActive = false;
-            if (BinaryStatus[7].Equals('1')) IsBeeperOn = true; else IsBeeperOn = false;
+            if (BinaryStatus.Length==8)
+            {
+                if (BinaryStatus[0].Equals('1')) IsUtilityFail = true; else IsUtilityFail = false;
+                if (BinaryStatus[1].Equals('1')) IsBatteryLow = true; else IsBatteryLow = false;
+                if (BinaryStatus[2].Equals('1')) IsActiveAVR = true; else IsActiveAVR = false;
+                if (BinaryStatus[3].Equals('1')) IsUpsFailed = true; else IsUpsFailed = false;
+                if (BinaryStatus[4].Equals('1')) IsStandby = true; else IsStandby = false;
+                if (BinaryStatus[5].Equals('1')) IsTestInProgress = true; else IsTestInProgress = false;
+                if (BinaryStatus[6].Equals('1')) IsShutdownActive = true; else IsShutdownActive = false;
+                if (BinaryStatus[7].Equals('1')) IsBeeperOn = true; else IsBeeperOn = false;
+            }            
 
             if (IsUtilityFail)
             {
@@ -92,9 +96,17 @@ namespace MegatecUpsController
                 BatteryPercent = Convert.ToInt32(100 - (100 / (BatteryVoltageMax - BatteryVoltageMin) * (BatteryVoltageMax - BatteryVoltage)));
             }
 
-            CurVA = LoadPercent * 1050 / 100; // TODO from settings
-            CurWatt = Convert.ToSingle(CurVA * 0.6); // TODO from settings
-            CurAmper = (float)Math.Round(CurWatt / OutputVoltage, 1);
+            CurVA = LoadPercent * UpsVA / 100;
+            CurWatt = Convert.ToSingle(CurVA * 0.6);
+            if (OutputVoltage > 0)
+            {
+                CurAmper = (float)Math.Round(CurWatt / OutputVoltage, 1);
+            }
+            else
+            {
+                CurAmper = 0;
+            }
+            
 
             InputVoltageHistory.Enqueue(UpsData.InputVoltage);
             OutputVoltageHistory.Enqueue(UpsData.OutputVoltage);

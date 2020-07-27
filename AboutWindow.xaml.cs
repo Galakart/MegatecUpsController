@@ -12,7 +12,7 @@ namespace MegatecUpsController
         {
             InitializeComponent();
             var version = Assembly.GetEntryAssembly().GetName().Version;
-            Tb_AboutInfo.Text += string.Format("{0}.{1}", version.Major, version.Minor);
+            Tb_AboutInfo.Text += string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
         }
 
         private void Btn_Ok_Click(object sender, RoutedEventArgs e)

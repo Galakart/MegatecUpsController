@@ -26,5 +26,11 @@
     <Setting Name="shutdownVoltage" Type="System.String" Scope="User">
       <Value Profile="(Default)">10.4</Value>
     </Setting>
+    <Setting Name="alwaysOnTop" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="upsVA" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1050</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
@@ -46,8 +47,6 @@ namespace MegatecUpsController
                     WindowState = WindowState.Normal;
                 };
 
-            UsbOps.SetupUsbDevice(int.Parse(Tb_Settings_VID.Text, NumberStyles.AllowHexSpecifier), int.Parse(Tb_Settings_PID.Text, NumberStyles.AllowHexSpecifier));
-
             TimerCallback tm = new TimerCallback(TimerActionRefreshUI);
             timerUI = new System.Threading.Timer(tm, null, 0, 1000);
 
@@ -75,15 +74,27 @@ namespace MegatecUpsController
             UpsData.BatteryVoltageMax = float.Parse(Settings.Default.batteryVoltage_max, CultureInfo.InvariantCulture.NumberFormat);
             UpsData.BatteryVoltageMin = float.Parse(Settings.Default.batteryVoltage_min, CultureInfo.InvariantCulture.NumberFormat);
             UpsData.BatteryVoltageMaxOnLoad = float.Parse(Settings.Default.batteryVoltage_maxOnLoad, CultureInfo.InvariantCulture.NumberFormat);
+            UpsData.UpsVA = float.Parse(Settings.Default.upsVA, CultureInfo.InvariantCulture.NumberFormat);
 
             Tb_Settings_VID.Text = Settings.Default.vid;
             Tb_Settings_PID.Text = Settings.Default.pid;
             Tb_Settings_BatteryVoltage_Max.Text = Settings.Default.batteryVoltage_max;
             Tb_Settings_BatteryVoltage_Min.Text = Settings.Default.batteryVoltage_min;
             Tb_Settings_BatteryVoltage_MaxOnLoad.Text = Settings.Default.batteryVoltage_maxOnLoad;
+            Tb_Settings_UpsVA.Text = Settings.Default.upsVA;
             Cb_ShutdownAction.SelectedIndex = Settings.Default.shutdownAction;
             Tb_ShutdownVoltage.Text = Settings.Default.shutdownVoltage;
             Chb_Settings_RunOnStartup.IsChecked = Settings.Default.runOnStartup;
+            Chb_Settings_AlwaysOnTop.IsChecked = Settings.Default.alwaysOnTop;
+
+            if (Settings.Default.alwaysOnTop)
+            {
+                Topmost = true;
+            }
+            else
+            {
+                Topmost = false;
+            }
 
         }
 
@@ -91,46 +102,72 @@ namespace MegatecUpsController
         private void TimerActionRefreshUI(object obj)
         {
             System.Windows.Application.Current.Dispatcher.Invoke((System.Action)delegate {
-                Lbl_InputVoltage.Content = UpsData.InputVoltage + " В";
-                Lbl_OutputVoltage.Content = UpsData.OutputVoltage + " В";
-                Lbl_Temperature.Content = UpsData.Temperature + "°";
-                Lbl_Hz.Content = UpsData.Hz + " Гц";
-                Lbl_LoadPercent.Content = UpsData.LoadPercent + " %";
-                Lbl_CurAmper.Content = UpsData.CurAmper + " А";
-                Lbl_CurWatt.Content = UpsData.CurWatt + " ВТ";
-                Lbl_CurVA.Content = UpsData.CurVA + " ВА";
-                Pb_BatteryLevel.Value = UpsData.BatteryPercent;
-                Lbl_BatteryVoltage.Content = UpsData.BatteryVoltage + " В";
-                //Pb_BatteryLevel.Foreground = new Brush();
-
-                Lbl_RawInputData.Content = UpsData.RawInputData;
-                Lbl_BottomStatus.Content = UpsData.StatusLine;
-
-                if (UpsData.IsActiveAVR)
+                if ((DateTime.Now - UpsData.LastUpdated).TotalSeconds > 5)
                 {
-                    El_AvrStatus.Fill = Brushes.Yellow;
-                    Lbl_AvrStatus.Content = "AVR: вкл.";
+                    Lbl_InputVoltage.Content = "???";
+                    Lbl_OutputVoltage.Content = "???";
+                    Lbl_Temperature.Content = "???";
+                    Lbl_Hz.Content = "???";
+                    Lbl_LoadPercent.Content = "???";
+                    Lbl_CurAmper.Content = "???";
+                    Lbl_CurWatt.Content = "???";
+                    Lbl_CurVA.Content = "???";
+                    Pb_BatteryLevel.Value = 0;
+                    Lbl_BatteryVoltage.Content = "???";
+
+                    Lbl_RawInputData.Content = UpsData.RawInputData;
+                    Lbl_BottomStatus.Content = UpsData.StatusLine;
+
+                    Lbl_AvrStatus.Content = "AVR: ???";
+                    Lbl_UpsSoundStatus.Content = "Звук ИБП: ???";
+
+                    UpsData.InputVoltageHistory.Enqueue(0);
+                    UpsData.OutputVoltageHistory.Enqueue(0);
+
+                    VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
+                    VoltageOutputGraph.PlotBars(x, UpsData.OutputVoltageHistory);
                 }
                 else
                 {
-                    El_AvrStatus.Fill = Brushes.Gray;
-                    Lbl_AvrStatus.Content = "AVR: выкл.";
-                }
+                    Lbl_InputVoltage.Content = UpsData.InputVoltage + " В";
+                    Lbl_OutputVoltage.Content = UpsData.OutputVoltage + " В";
+                    Lbl_Temperature.Content = UpsData.Temperature + "°";
+                    Lbl_Hz.Content = UpsData.Hz + " Гц";
+                    Lbl_LoadPercent.Content = UpsData.LoadPercent + " %";
+                    Lbl_CurAmper.Content = UpsData.CurAmper + " А";
+                    Lbl_CurWatt.Content = UpsData.CurWatt + " ВТ";
+                    Lbl_CurVA.Content = UpsData.CurVA + " ВА";
+                    Pb_BatteryLevel.Value = UpsData.BatteryPercent;
+                    Lbl_BatteryVoltage.Content = UpsData.BatteryVoltage + " В";
 
-                if (UpsData.IsBeeperOn)
-                {
-                    El_UpsSoundStatus.Fill = Brushes.LimeGreen;
-                    Lbl_UpsSoundStatus.Content = "Звук ИБП: вкл.";
-                }
-                else
-                {
-                    El_UpsSoundStatus.Fill = Brushes.Gray;
-                    Lbl_UpsSoundStatus.Content = "Звук ИБП: выкл.";
-                }
+                    Lbl_RawInputData.Content = UpsData.RawInputData;
+                    Lbl_BottomStatus.Content = UpsData.StatusLine;
 
-                VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
-                VoltageOutputGraph.PlotBars(x, UpsData.OutputVoltageHistory);
+                    if (UpsData.IsActiveAVR)
+                    {
+                        El_AvrStatus.Fill = Brushes.Yellow;
+                        Lbl_AvrStatus.Content = "AVR: вкл.";
+                    }
+                    else
+                    {
+                        El_AvrStatus.Fill = Brushes.Gray;
+                        Lbl_AvrStatus.Content = "AVR: выкл.";
+                    }
 
+                    if (UpsData.IsBeeperOn)
+                    {
+                        El_UpsSoundStatus.Fill = Brushes.LimeGreen;
+                        Lbl_UpsSoundStatus.Content = "Звук ИБП: вкл.";
+                    }
+                    else
+                    {
+                        El_UpsSoundStatus.Fill = Brushes.Gray;
+                        Lbl_UpsSoundStatus.Content = "Звук ИБП: выкл.";
+                    }
+
+                    VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
+                    VoltageOutputGraph.PlotBars(x, UpsData.OutputVoltageHistory);
+                }
 
             });
         }
@@ -142,24 +179,36 @@ namespace MegatecUpsController
             UpsData.BatteryVoltageMax = float.Parse(Tb_Settings_BatteryVoltage_Max.Text, CultureInfo.InvariantCulture.NumberFormat);
             UpsData.BatteryVoltageMin = float.Parse(Tb_Settings_BatteryVoltage_Min.Text, CultureInfo.InvariantCulture.NumberFormat);
             UpsData.BatteryVoltageMaxOnLoad = float.Parse(Tb_Settings_BatteryVoltage_MaxOnLoad.Text, CultureInfo.InvariantCulture.NumberFormat);
+            UpsData.UpsVA = float.Parse(Tb_Settings_UpsVA.Text, CultureInfo.InvariantCulture.NumberFormat);
 
             Settings.Default.vid = Tb_Settings_VID.Text;
             Settings.Default.pid = Tb_Settings_PID.Text;
             Settings.Default.batteryVoltage_max = Tb_Settings_BatteryVoltage_Max.Text;
             Settings.Default.batteryVoltage_min = Tb_Settings_BatteryVoltage_Min.Text;
             Settings.Default.batteryVoltage_maxOnLoad = Tb_Settings_BatteryVoltage_MaxOnLoad.Text;
+            Settings.Default.upsVA = Tb_Settings_UpsVA.Text;
             Settings.Default.shutdownAction = Cb_ShutdownAction.SelectedIndex;
             Settings.Default.shutdownVoltage = Tb_ShutdownVoltage.Text;
             Settings.Default.runOnStartup = (bool)Chb_Settings_RunOnStartup.IsChecked;
+            Settings.Default.alwaysOnTop = (bool)Chb_Settings_AlwaysOnTop.IsChecked;
             Settings.Default.Save();
 
             if ((bool)Chb_Settings_RunOnStartup.IsChecked)
             {
-                rkAppStartup.SetValue("MegatecUPSController", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                rkAppStartup.SetValue("MegatecUPSController", Assembly.GetExecutingAssembly().Location);
             }
             else
             {
                 rkAppStartup.DeleteValue("MegatecUPSController", false);
+            }
+
+            if ((bool)Chb_Settings_AlwaysOnTop.IsChecked)
+            {
+                Topmost = true;
+            }
+            else
+            {
+                Topmost = false;
             }
         }
 
@@ -199,6 +248,7 @@ namespace MegatecUpsController
         private void ExitApp(object sender, EventArgs e)
         {
             UsbOps.StopUsbTimer();
+            timerUI.Dispose();
             ni.Dispose();
             App.Current.Shutdown();
         }
@@ -224,6 +274,8 @@ namespace MegatecUpsController
         {
             HwndSource src = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             src.AddHook(new HwndSourceHook(WndProc));
+
+            UsbOps.SetupUsbDevice(int.Parse(Tb_Settings_VID.Text, NumberStyles.AllowHexSpecifier), int.Parse(Tb_Settings_PID.Text, NumberStyles.AllowHexSpecifier));
         }
 
         private void MainForm_SourceInitialized(object sender, EventArgs e)
@@ -232,5 +284,10 @@ namespace MegatecUpsController
             UsbOps.usb.RegisterHandle(handle);
         }
 
+
+        private void Btn_Debug_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

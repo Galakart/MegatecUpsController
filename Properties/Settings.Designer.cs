@@ -118,5 +118,29 @@ namespace MegatecUpsController.Properties {
                 this["shutdownVoltage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool alwaysOnTop {
+            get {
+                return ((bool)(this["alwaysOnTop"]));
+            }
+            set {
+                this["alwaysOnTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1050")]
+        public string upsVA {
+            get {
+                return ((string)(this["upsVA"]));
+            }
+            set {
+                this["upsVA"] = value;
+            }
+        }
     }
 }
