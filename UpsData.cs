@@ -34,6 +34,7 @@ namespace MegatecUpsController
 
         //History data
         public static SizedQueue<double> InputVoltageHistory = new SizedQueue<double>(60);
+        public static SizedQueue<double> OutputVoltageHistory = new SizedQueue<double>(60);
 
         //Settings data
         public static int ShutdownAction { private get; set; }
@@ -50,7 +51,11 @@ namespace MegatecUpsController
         static UpsData()
         {
             for (int i = 0; i < 60; i++)
+            {
                 InputVoltageHistory.Enqueue(0);
+                OutputVoltageHistory.Enqueue(0);
+            }
+
         }
 
         public static void UpdateData(string RawData)
@@ -92,6 +97,7 @@ namespace MegatecUpsController
             CurAmper = (float)Math.Round(CurWatt / OutputVoltage, 1);
 
             InputVoltageHistory.Enqueue(UpsData.InputVoltage);
+            OutputVoltageHistory.Enqueue(UpsData.OutputVoltage);
 
             LastUpdated = DateTime.Now;
 

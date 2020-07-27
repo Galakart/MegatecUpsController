@@ -143,7 +143,10 @@
 
                     <Grid Grid.Column="0" Grid.Row="2">
                         <d3:Chart BottomTitle="Время" LeftTitle="Вольт">
-                            <d3:LineGraph x:Name="VoltageGraph" Description="Uвх." Stroke="Blue" StrokeThickness="3"  />
+                            <d3:Plot x:Name="plot">
+                                <d3:BarGraph x:Name="VoltageOutputGraph" Description="Uвых." Color="Blue" StrokeThickness="1" BarsWidth="1" />
+                                <d3:LineGraph x:Name="VoltageInputGraph" Description="Uвх." Stroke="Red" StrokeThickness="3"  />
+                            </d3:Plot>
                         </d3:Chart>
                     </Grid>
 

@@ -51,6 +51,7 @@ namespace MegatecUpsController
             TimerCallback tm = new TimerCallback(TimerActionRefreshUI);
             timerUI = new System.Threading.Timer(tm, null, 0, 1000);
 
+
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -127,7 +128,8 @@ namespace MegatecUpsController
                     Lbl_UpsSoundStatus.Content = "Звук ИБП: выкл.";
                 }
 
-                VoltageGraph.Plot(x, UpsData.InputVoltageHistory);
+                VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
+                VoltageOutputGraph.PlotBars(x, UpsData.OutputVoltageHistory);
 
 
             });
