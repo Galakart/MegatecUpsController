@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock>Сообщение о программе и авторе + версия</TextBlock>
+        <TextBlock x:Name="Tb_AboutInfo" Text="Сообщение о программе и авторе + версия"></TextBlock>
 
         <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,15,0,0">
             <Button x:Name="Btn_Ok" IsDefault="True" MinWidth="60" Margin="0,0,10,0" Click="Btn_Ok_Click">OK</Button>

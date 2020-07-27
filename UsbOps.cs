@@ -44,7 +44,10 @@ namespace MegatecUpsController
 
         public static void StopUsbTimer()
         {
-            timerUSB.Dispose();
+            if (timerUSB != null)
+            {
+                timerUSB.Dispose();
+            }                
         }
 
         private static void TimerActionSendQ1(object obj)
