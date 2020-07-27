@@ -177,6 +177,7 @@
                     <CheckBox x:Name="Chb_Settings_AlwaysOnTop" Content="Поверх всех окон" HorizontalAlignment="Left" Margin="330,242,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="Tb_Settings_UpsVA" HorizontalAlignment="Left" Height="23" Margin="129,303,0,0" TextWrapping="Wrap" Text="1050" VerticalAlignment="Top" Width="62"/>
                     <Label Content="Мощность ИБП, ВА" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="Btn_SearchUps" Content="Найти ИБП" HorizontalAlignment="Left" Margin="71,141,0,0" VerticalAlignment="Top" Width="95" Click="Btn_SearchUps_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Debug">

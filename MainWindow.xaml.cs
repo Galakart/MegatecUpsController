@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
@@ -210,6 +211,12 @@ namespace MegatecUpsController
             {
                 Topmost = false;
             }
+
+            if (UsbOps.usb.SpecifiedDevice == null)
+            {
+                connectUps();
+            }
+
         }
 
 
@@ -274,8 +281,7 @@ namespace MegatecUpsController
         {
             HwndSource src = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             src.AddHook(new HwndSourceHook(WndProc));
-
-            UsbOps.SetupUsbDevice(int.Parse(Tb_Settings_VID.Text, NumberStyles.AllowHexSpecifier), int.Parse(Tb_Settings_PID.Text, NumberStyles.AllowHexSpecifier));
+            connectUps();
         }
 
         private void MainForm_SourceInitialized(object sender, EventArgs e)
@@ -288,6 +294,67 @@ namespace MegatecUpsController
         private void Btn_Debug_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private bool connectUps()
+        {
+            return UsbOps.SetupUsbDevice(int.Parse(Tb_Settings_VID.Text, NumberStyles.AllowHexSpecifier), int.Parse(Tb_Settings_PID.Text, NumberStyles.AllowHexSpecifier));
+        }
+
+        private void Btn_SearchUps_Click(object sender, RoutedEventArgs e)
+        {
+            bool success = false;
+            string tmpVID = Tb_Settings_VID.Text;
+            string tmpPID = Tb_Settings_PID.Text;
+
+            if (tmpVID.Length > 0 && tmpPID.Length > 0)
+            {
+                success = connectUps();
+            }
+
+            if (!success)
+            {
+                Tb_Settings_VID.Text = "0665";
+                Tb_Settings_PID.Text = "5161";
+                success = connectUps();
+            }
+
+            if (!success)
+            {
+                Tb_Settings_VID.Text = "06DA";
+                Tb_Settings_PID.Text = "0003";
+                success = connectUps();
+            }
+
+            if (!success)
+            {
+                Tb_Settings_VID.Text = "0F03";
+                Tb_Settings_PID.Text = "0001";
+                success = connectUps();
+            }
+
+            if (!success)
+            {
+                Tb_Settings_VID.Text = "05B8";
+                Tb_Settings_PID.Text = "0000";
+                success = connectUps();
+            }
+
+            if (!success)
+            {
+                Tb_Settings_VID.Text = tmpVID;
+                Tb_Settings_PID.Text = tmpPID;
+                System.Windows.MessageBox.Show("ИБП не найден!", "Провал", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                Settings.Default.vid = Tb_Settings_VID.Text;
+                Settings.Default.pid = Tb_Settings_PID.Text;
+                Settings.Default.Save();
+                System.Windows.MessageBox.Show("ИБП найден и подключён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+
         }
     }
 }

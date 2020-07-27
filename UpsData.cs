@@ -61,22 +61,22 @@ namespace MegatecUpsController
 
         public static void UpdateData(string RawData)
         {
-            RawInputData = RawData;
-
-            RawData = RawData.Replace("(", "");
-            string[] arrayOfData = RawData.Split();
-
-            InputVoltage = float.Parse(arrayOfData[0], CultureInfo.InvariantCulture.NumberFormat);
-            InputVoltageLastFault = float.Parse(arrayOfData[1], CultureInfo.InvariantCulture.NumberFormat);
-            OutputVoltage = float.Parse(arrayOfData[2], CultureInfo.InvariantCulture.NumberFormat);
-            LoadPercent = Convert.ToInt32(arrayOfData[3]);
-            Hz = float.Parse(arrayOfData[4], CultureInfo.InvariantCulture.NumberFormat);
-            BatteryVoltage = float.Parse(arrayOfData[5], CultureInfo.InvariantCulture.NumberFormat);
-            Temperature = float.Parse(arrayOfData[6], CultureInfo.InvariantCulture.NumberFormat);
-            BinaryStatus = arrayOfData[7];
-
-            if (BinaryStatus.Length==8)
+            try
             {
+                RawInputData = RawData;
+
+                RawData = RawData.Replace("(", "");
+                string[] arrayOfData = RawData.Split();
+
+                InputVoltage = float.Parse(arrayOfData[0], CultureInfo.InvariantCulture.NumberFormat);
+                InputVoltageLastFault = float.Parse(arrayOfData[1], CultureInfo.InvariantCulture.NumberFormat);
+                OutputVoltage = float.Parse(arrayOfData[2], CultureInfo.InvariantCulture.NumberFormat);
+                LoadPercent = Convert.ToInt32(arrayOfData[3]);
+                Hz = float.Parse(arrayOfData[4], CultureInfo.InvariantCulture.NumberFormat);
+                BatteryVoltage = float.Parse(arrayOfData[5], CultureInfo.InvariantCulture.NumberFormat);
+                Temperature = float.Parse(arrayOfData[6], CultureInfo.InvariantCulture.NumberFormat);
+                BinaryStatus = arrayOfData[7];
+
                 if (BinaryStatus[0].Equals('1')) IsUtilityFail = true; else IsUtilityFail = false;
                 if (BinaryStatus[1].Equals('1')) IsBatteryLow = true; else IsBatteryLow = false;
                 if (BinaryStatus[2].Equals('1')) IsActiveAVR = true; else IsActiveAVR = false;
@@ -85,33 +85,38 @@ namespace MegatecUpsController
                 if (BinaryStatus[5].Equals('1')) IsTestInProgress = true; else IsTestInProgress = false;
                 if (BinaryStatus[6].Equals('1')) IsShutdownActive = true; else IsShutdownActive = false;
                 if (BinaryStatus[7].Equals('1')) IsBeeperOn = true; else IsBeeperOn = false;
-            }            
 
-            if (IsUtilityFail)
-            {
-                BatteryPercent = Convert.ToInt32(100 - (100 / (BatteryVoltageMaxOnLoad - BatteryVoltageMin) * (BatteryVoltageMaxOnLoad - BatteryVoltage)));
+                if (IsUtilityFail)
+                {
+                    BatteryPercent = Convert.ToInt32(100 - (100 / (BatteryVoltageMaxOnLoad - BatteryVoltageMin) * (BatteryVoltageMaxOnLoad - BatteryVoltage)));
+                }
+                else
+                {
+                    BatteryPercent = Convert.ToInt32(100 - (100 / (BatteryVoltageMax - BatteryVoltageMin) * (BatteryVoltageMax - BatteryVoltage)));
+                }
+
+                CurVA = LoadPercent * UpsVA / 100;
+                CurWatt = Convert.ToSingle(CurVA * 0.6);
+                if (OutputVoltage > 0)
+                {
+                    CurAmper = (float)Math.Round(CurWatt / OutputVoltage, 1);
+                }
+                else
+                {
+                    CurAmper = 0;
+                }
+
+
+                InputVoltageHistory.Enqueue(UpsData.InputVoltage);
+                OutputVoltageHistory.Enqueue(UpsData.OutputVoltage);
+
+                LastUpdated = DateTime.Now;
             }
-            else
+            catch
             {
-                BatteryPercent = Convert.ToInt32(100 - (100 / (BatteryVoltageMax - BatteryVoltageMin) * (BatteryVoltageMax - BatteryVoltage)));
+                //TODO log error
             }
 
-            CurVA = LoadPercent * UpsVA / 100;
-            CurWatt = Convert.ToSingle(CurVA * 0.6);
-            if (OutputVoltage > 0)
-            {
-                CurAmper = (float)Math.Round(CurWatt / OutputVoltage, 1);
-            }
-            else
-            {
-                CurAmper = 0;
-            }
-            
-
-            InputVoltageHistory.Enqueue(UpsData.InputVoltage);
-            OutputVoltageHistory.Enqueue(UpsData.OutputVoltage);
-
-            LastUpdated = DateTime.Now;
 
             if (IsUtilityFail)
             {

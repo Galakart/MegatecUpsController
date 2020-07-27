@@ -21,27 +21,32 @@ namespace MegatecUpsController
             usb.OnSpecifiedDeviceRemoved += new System.EventHandler(Usb_OnSpecifiedDeviceRemoved);
             usb.OnDataSend += new System.EventHandler(Usb_OnDataSend);
             usb.OnDataRecieved += new UsbLibrary.DataRecievedEventHandler(Usb_OnDataRecieved);
+
+            TimerCallback tm = new TimerCallback(TimerActionSendQ1);
+            timerUSB = new Timer(tm, null, 0, 1000);
         }
 
-        public static void SetupUsbDevice(Int32 vid, Int32 pid)
+        public static bool SetupUsbDevice(Int32 vid, Int32 pid)
         {
-            StopUsbTimer();
+            if (usb.Ready())
+            {
+                usb.Close();
+            }
 
             usb.VendorId = vid;
             usb.ProductId = pid;
 
             usb.Open(true);
 
-            TimerCallback tm = new TimerCallback(TimerActionSendQ1);
-            timerUSB = new Timer(tm, null, 0, 1000);
-
             if (usb.SpecifiedDevice != null)
             {
                 UpsData.StatusLine = "ИБП подключён";
+                return true;
             }
             else
             {
                 UpsData.StatusLine = "ИБП недоступен";
+                return false;
             }
         }
 
@@ -58,10 +63,6 @@ namespace MegatecUpsController
             if (usb.SpecifiedDevice != null)
             {
                 usb.SpecifiedDevice.SendData(Q1request);
-            }
-            else
-            {
-                UpsData.StatusLine = "потеряно соединение";
             }
         }
 
