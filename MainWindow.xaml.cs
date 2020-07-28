@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
@@ -355,6 +356,83 @@ namespace MegatecUpsController
             }
 
 
+        }
+
+        private void Tb_Settings_VID_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Tb_Settings_VID.Text.Length == 0)
+                Tb_Settings_VID.Text = "0";
+        }
+
+        private void Tb_Settings_PID_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Tb_Settings_PID.Text.Length == 0)
+                Tb_Settings_PID.Text = "0";
+        }
+
+        private void Tb_Settings_BatteryVoltage_Min_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Tb_Settings_BatteryVoltage_Min.Text.Length == 0)
+                Tb_Settings_BatteryVoltage_Min.Text = "0";
+        }
+
+        private void Tb_Settings_BatteryVoltage_Max_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Tb_Settings_BatteryVoltage_Max.Text.Length == 0)
+                Tb_Settings_BatteryVoltage_Max.Text = "0";
+        }
+
+        private void Tb_Settings_BatteryVoltage_MaxOnLoad_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Tb_Settings_BatteryVoltage_MaxOnLoad.Text.Length == 0)
+                Tb_Settings_BatteryVoltage_MaxOnLoad.Text = "0";
+        }
+
+        private void Tb_Settings_UpsVA_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Tb_Settings_UpsVA.Text.Length == 0)
+                Tb_Settings_UpsVA.Text = "0";
+        }
+
+        private void Tb_ShutdownVoltage_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Tb_ShutdownVoltage.Text.Length == 0)
+                Tb_ShutdownVoltage.Text = "0";
+        }
+
+        private void Tb_Settings_UpsVA_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            e.Handled = checkTextBoxDoubleValue(sender, e);
+        }
+
+        private bool checkTextBoxDoubleValue(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            var regex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
+            if (regex.IsMatch(e.Text) && !(e.Text == "." && ((System.Windows.Controls.TextBox)sender).Text.Contains(e.Text)))
+                return false;
+
+            else
+                return true;
+        }
+
+        private void Tb_ShutdownVoltage_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            e.Handled = checkTextBoxDoubleValue(sender, e);
+        }
+
+        private void Tb_Settings_BatteryVoltage_Min_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            e.Handled = checkTextBoxDoubleValue(sender, e);
+        }
+
+        private void Tb_Settings_BatteryVoltage_Max_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            e.Handled = checkTextBoxDoubleValue(sender, e);
+        }
+
+        private void Tb_Settings_BatteryVoltage_MaxOnLoad_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            e.Handled = checkTextBoxDoubleValue(sender, e);
         }
     }
 }
