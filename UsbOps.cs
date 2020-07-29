@@ -40,12 +40,12 @@ namespace MegatecUpsController
 
             if (usb.SpecifiedDevice != null)
             {
-                UpsData.StatusLine = "ИБП подключён";
+                UpsData.ConnectStatus = true;
                 return true;
             }
             else
             {
-                UpsData.StatusLine = "ИБП недоступен";
+                UpsData.ConnectStatus = false;
                 return false;
             }
         }
@@ -75,13 +75,13 @@ namespace MegatecUpsController
         private static void Usb_OnSpecifiedDeviceArrived(object sender, EventArgs e)
         {
             //device found
-            UpsData.StatusLine = "ИБП подключён";
+            UpsData.ConnectStatus = true;
         }
 
         private static void Usb_OnSpecifiedDeviceRemoved(object sender, EventArgs e)
         {
             //device lost
-            UpsData.StatusLine = "ИБП недоступен";
+            UpsData.ConnectStatus = false;
         }
 
         private static void Usb_OnDataSend(object sender, EventArgs e)

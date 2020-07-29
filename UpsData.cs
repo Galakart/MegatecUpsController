@@ -47,7 +47,7 @@ namespace MegatecUpsController
         // Common data
         public static string RawInputData { get; private set; }
         public static DateTime LastUpdated { get; private set; }
-        public static string StatusLine { get; set; }
+        public static bool ConnectStatus { get; set; }
 
         static UpsData()
         {

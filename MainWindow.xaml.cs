@@ -120,9 +120,6 @@ namespace MegatecUpsController
                     Pb_BatteryLevel.Value = 0;
                     Lbl_BatteryVoltage.Content = "???";
 
-                    Lbl_RawInputData.Content = UpsData.RawInputData;
-                    Lbl_BottomStatus.Content = UpsData.StatusLine;
-
                     Lbl_AvrStatus.Content = "AVR: ???";
                     Lbl_UpsSoundStatus.Content = "Звук ИБП: ???";
 
@@ -144,9 +141,6 @@ namespace MegatecUpsController
                     Lbl_CurVA.Content = UpsData.CurVA + " ВА";
                     Pb_BatteryLevel.Value = UpsData.BatteryPercent;
                     Lbl_BatteryVoltage.Content = UpsData.BatteryVoltage + " В";
-
-                    Lbl_RawInputData.Content = UpsData.RawInputData;
-                    Lbl_BottomStatus.Content = UpsData.StatusLine;
 
                     if (UpsData.IsActiveAVR)
                     {
@@ -172,6 +166,19 @@ namespace MegatecUpsController
 
                     VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
                     VoltageOutputGraph.PlotBars(x, UpsData.OutputVoltageHistory);
+                }
+
+                if (UpsData.ConnectStatus)
+                {
+                    El_UpsStatus.Fill = Brushes.LimeGreen;
+                    Lbl_BottomStatus.Content = "ИБП подключён";
+                    Lbl_RawInputData.Content = UpsData.RawInputData;
+                }
+                else
+                {
+                    El_UpsStatus.Fill = Brushes.Red;
+                    Lbl_BottomStatus.Content = "ИБП недоступен";
+                    Lbl_RawInputData.Content = "";
                 }
 
             });

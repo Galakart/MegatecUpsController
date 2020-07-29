@@ -11,7 +11,7 @@
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="30">
             <StatusBarItem>
-                <Label x:Name="Lbl_RawInputData" Content="raw input data" />
+                <Ellipse x:Name="El_UpsStatus" Stroke="Black" StrokeThickness="2" Fill="Red" Width="15" Height="15" />
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
@@ -19,8 +19,8 @@
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <Label Content="icon" />
-            </StatusBarItem>
+                <Label x:Name="Lbl_RawInputData" Content="raw input data" />
+            </StatusBarItem>            
         </StatusBar>
 
         <TabControl>
