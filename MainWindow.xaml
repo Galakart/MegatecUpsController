@@ -20,7 +20,7 @@
             <Separator/>
             <StatusBarItem>
                 <Label x:Name="Lbl_RawInputData" Content="raw input data" />
-            </StatusBarItem>            
+            </StatusBarItem>
         </StatusBar>
 
         <TabControl>
@@ -78,8 +78,8 @@
                             <GroupBox.Header>Батарея и AVR</GroupBox.Header>
                             <Viewbox Stretch="Uniform">
                                 <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal" ToolTip="Заряд батареи">
-                                        <Border BorderBrush="#00c000" BorderThickness="2" CornerRadius="5" Padding="2" Width="100" Height="50">
+                                    <StackPanel Orientation="Horizontal" ToolTip="Заряд батареи" HorizontalAlignment="Center">
+                                        <Border BorderBrush="#00c000" BorderThickness="2" CornerRadius="5" Padding="2" Width="125" Height="50">
                                             <Grid Name="progressBarContainer">
                                                 <ProgressBar x:Name="Pb_BatteryLevel" Orientation="Horizontal" VerticalAlignment="Center" Background="{x:Null}" Value="50" Height="{Binding ElementName=progressBarContainer, Path=ActualHeight}" SnapsToDevicePixels="True" Foreground="#00c000" BorderBrush="{x:Null}" />
                                                 <TextBlock Text="{Binding ElementName=Pb_BatteryLevel, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Top" />
@@ -88,7 +88,7 @@
                                         </Border>
                                         <Border Background="#00c000" CornerRadius="0,2,2,0" Padding="2" Width="7" Height="20" Margin="-2,0,-2,0"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" ToolTip="Состояние AVR">
+                                    <StackPanel Orientation="Horizontal" ToolTip="Состояние AVR" HorizontalAlignment="Center">
                                         <Ellipse x:Name="El_AvrStatus" Stroke="Black" StrokeThickness="1" Fill="Gray" Width="10" Height="10" />
                                         <Label x:Name="Lbl_AvrStatus" Content="AVR: выкл." FontWeight="Bold" />
                                     </StackPanel>
@@ -98,11 +98,11 @@
 
                         <GroupBox Grid.Column="2" Grid.Row="1">
                             <GroupBox.Header>Управление</GroupBox.Header>
-                            <Viewbox Stretch="Uniform">
+                            <Viewbox Stretch="Uniform" VerticalAlignment="Top">
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <Ellipse x:Name="El_UpsSoundStatus" Stroke="Black" StrokeThickness="1" Fill="Gray" Width="10" Height="10" />
-                                        <Label x:Name="Lbl_UpsSoundStatus" Content="Звук ИБП: выкл." VerticalAlignment="Center" />
+                                        <Label x:Name="Lbl_UpsSoundStatus" Content="Звук ИБП: выкл." />
                                         <Button x:Name="Btn_UpsSoundSwitch" Width="23" Height="20" ToolTip="Вкл/выкл звук уведомлений из ИБП" Click="Btn_UpsSoundSwitch_Click" >
                                             <Button.Content>
                                                 <Path Stroke="Black" Data="M10.146 7.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L12.793 11l-2.647-2.646a.5.5 0 0 1 0-.708z M2 11a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 11zm3.854-9.354a.5.5 0 0 1 0 .708L3.207 5l2.647 2.646a.5.5 0 1 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z M2.5 5a.5.5 0 0 1 .5-.5h10.5a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
@@ -142,10 +142,16 @@
                     <GridSplitter Grid.Column="0" Grid.Row="1" ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 
                     <Grid Grid.Column="0" Grid.Row="2">
-                        <d3:Chart BottomTitle="Время" LeftTitle="Вольт" IsVerticalNavigationEnabled="False" IsHorizontalNavigationEnabled="False">
+                        <d3:Chart BottomTitle="Время" LeftTitle="Вольт" IsVerticalNavigationEnabled="False" IsHorizontalNavigationEnabled="False" Margin="0,5,0,0" PlotHeight="310" PlotWidth="60" LegendVisibility="Hidden">
                             <d3:Plot x:Name="plot">
-                                <d3:BarGraph x:Name="VoltageOutputGraph" Description="Uвых." Color="Blue" StrokeThickness="1" BarsWidth="1" />
+                                <d3:BarGraph x:Name="VoltageOutputGraph" Description="Uвых." Color="DeepSkyBlue" StrokeThickness="1" BarsWidth="1" />
                                 <d3:LineGraph x:Name="VoltageInputGraph" Description="Uвх." Stroke="Red" StrokeThickness="3"  />
+                                <d3:Legend>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Uвх." FontWeight="Bold" Foreground="Red" />
+                                        <Label Content="Uвых." FontWeight="Bold" Foreground="DeepSkyBlue"/>
+                                    </StackPanel>
+                                </d3:Legend>
                             </d3:Plot>
                         </d3:Chart>
                     </Grid>

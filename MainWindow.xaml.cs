@@ -107,7 +107,7 @@ namespace MegatecUpsController
         private void TimerActionRefreshUI(object obj)
         {
             System.Windows.Application.Current.Dispatcher.Invoke((System.Action)delegate {
-                if ((DateTime.Now - UpsData.LastUpdated).TotalSeconds > 5)
+                if ((DateTime.Now - UpsData.LastUpdated).TotalSeconds > 10)
                 {
                     Lbl_InputVoltage.Content = "???";
                     Lbl_OutputVoltage.Content = "???";
