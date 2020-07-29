@@ -1,4 +1,5 @@
-﻿using MegatecUpsController.Properties;
+﻿using FontAwesome.WPF;
+using MegatecUpsController.Properties;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
@@ -35,6 +36,7 @@ namespace MegatecUpsController
                 x[i] = i;
 
             MenuItem MainMenuItem = new MenuItem("Главное окно", new EventHandler(ShowMainWindow));
+            MenuItem SettingsMenuItem = new MenuItem("Настройки", new EventHandler(ShowSettingsWindow));
             MenuItem AboutMenuItem = new MenuItem("О программе", new EventHandler(ShowAboutWindow));
             MenuItem ExitMenuItem = new MenuItem("Выход", new EventHandler(ExitApp));
 
@@ -120,9 +122,6 @@ namespace MegatecUpsController
                     Pb_BatteryLevel.Value = 0;
                     Lbl_BatteryVoltage.Content = "???";
 
-                    Lbl_AvrStatus.Content = "AVR: ???";
-                    Lbl_UpsSoundStatus.Content = "Звук ИБП: ???";
-
                     UpsData.InputVoltageHistory.Enqueue(0);
                     UpsData.OutputVoltageHistory.Enqueue(0);
 
@@ -155,13 +154,13 @@ namespace MegatecUpsController
 
                     if (UpsData.IsBeeperOn)
                     {
-                        El_UpsSoundStatus.Fill = Brushes.LimeGreen;
-                        Lbl_UpsSoundStatus.Content = "Звук ИБП: вкл.";
+                        Fa_UpsSoundSwitch.Icon = FontAwesomeIcon.VolumeUp;
+                        Btn_UpsSoundSwitch.ToolTip = "Звук из ИБП (включён)";
                     }
                     else
                     {
-                        El_UpsSoundStatus.Fill = Brushes.Gray;
-                        Lbl_UpsSoundStatus.Content = "Звук ИБП: выкл.";
+                        Fa_UpsSoundSwitch.Icon = FontAwesomeIcon.VolumeOff;
+                        Btn_UpsSoundSwitch.ToolTip = "Звук из ИБП (выключен)";
                     }
 
                     VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
@@ -256,6 +255,12 @@ namespace MegatecUpsController
         {
             Show();
             WindowState = WindowState.Normal;
+        }
+
+        private void ShowSettingsWindow(object sender, EventArgs e)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.ShowDialog();
         }
 
         private void ShowAboutWindow(object sender, EventArgs e)
@@ -445,5 +450,12 @@ namespace MegatecUpsController
         {
             e.Handled = checkTextBoxDoubleValue(sender, e);
         }
+
+        private void Btn_OpenSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.ShowDialog();
+        }
+
     }
 }
