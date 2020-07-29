@@ -88,6 +88,7 @@ namespace MegatecUpsController
             Tb_ShutdownVoltage.Text = Settings.Default.shutdownVoltage;
             Chb_Settings_RunOnStartup.IsChecked = Settings.Default.runOnStartup;
             Chb_Settings_AlwaysOnTop.IsChecked = Settings.Default.alwaysOnTop;
+            Chb_Settings_RunMinimized.IsChecked = Settings.Default.runMinimized;
 
             if (Settings.Default.alwaysOnTop)
             {
@@ -97,6 +98,8 @@ namespace MegatecUpsController
             {
                 Topmost = false;
             }
+
+            
 
         }
 
@@ -193,6 +196,7 @@ namespace MegatecUpsController
             Settings.Default.shutdownVoltage = Tb_ShutdownVoltage.Text;
             Settings.Default.runOnStartup = (bool)Chb_Settings_RunOnStartup.IsChecked;
             Settings.Default.alwaysOnTop = (bool)Chb_Settings_AlwaysOnTop.IsChecked;
+            Settings.Default.runMinimized = (bool)Chb_Settings_RunMinimized.IsChecked;
             Settings.Default.Save();
 
             if ((bool)Chb_Settings_RunOnStartup.IsChecked)

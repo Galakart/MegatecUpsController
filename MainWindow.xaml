@@ -178,6 +178,7 @@
                     <TextBox x:Name="Tb_Settings_UpsVA" HorizontalAlignment="Left" Height="23" Margin="129,303,0,0" TextWrapping="Wrap" Text="1050" VerticalAlignment="Top" Width="62" LostFocus="Tb_Settings_UpsVA_LostFocus" PreviewTextInput="Tb_Settings_UpsVA_PreviewTextInput"/>
                     <Label Content="Мощность ИБП, ВА" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top"/>
                     <Button x:Name="Btn_SearchUps" Content="Найти ИБП" HorizontalAlignment="Left" Margin="71,141,0,0" VerticalAlignment="Top" Width="95" Click="Btn_SearchUps_Click"/>
+                    <CheckBox x:Name="Chb_Settings_RunMinimized" Content="Запускать свёрнутым" HorizontalAlignment="Left" Margin="330,290,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Debug">

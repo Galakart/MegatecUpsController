@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
+﻿using MegatecUpsController.Properties;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Windows;
 
@@ -50,7 +51,16 @@ namespace MegatecUpsController
         {
             base.OnStartup(e);
             MainWindow window = new MainWindow();
-            window.Show();
+            if (Settings.Default.runMinimized)
+            {
+                window.WindowState = WindowState.Minimized;
+                window.Show();
+                window.Hide();
+            }
+            else
+            {
+                window.Show();
+            }
         }
 
         public void Activate()

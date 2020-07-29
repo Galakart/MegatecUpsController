@@ -32,5 +32,8 @@
     <Setting Name="upsVA" Type="System.String" Scope="User">
       <Value Profile="(Default)">1050</Value>
     </Setting>
+    <Setting Name="runMinimized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

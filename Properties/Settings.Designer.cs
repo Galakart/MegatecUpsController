@@ -142,5 +142,17 @@ namespace MegatecUpsController.Properties {
                 this["upsVA"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool runMinimized {
+            get {
+                return ((bool)(this["runMinimized"]));
+            }
+            set {
+                this["runMinimized"] = value;
+            }
+        }
     }
 }
