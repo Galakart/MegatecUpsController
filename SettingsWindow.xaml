@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MegatecUpsController"
         mc:Ignorable="d"
-        Title="Настройки" Height="450" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid>
-        
+        Title="Настройки" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Background="#FFE5E5E5">
+        <CheckBox x:Name="Chb_Settings_RunOnStartup" Content="Запускать при старте Windows" HorizontalAlignment="Left" Margin="36,365,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Btn_SaveSettings" Content="Сохранить" HorizontalAlignment="Left" Margin="647,317,0,0" VerticalAlignment="Top" Width="75" IsDefault="True" Click="Btn_SaveSettings_Click"/>
+        <TextBox x:Name="Tb_Settings_VID" HorizontalAlignment="Left" Height="23" Margin="71,61,0,0" VerticalAlignment="Top" Width="120" Text="0665" LostFocus="Tb_Settings_VID_LostFocus" PreviewTextInput="Tb_Settings_VID_PreviewTextInput" />
+        <TextBox x:Name="Tb_Settings_PID" HorizontalAlignment="Left" Height="23" Margin="71,101,0,0" VerticalAlignment="Top" Width="120" Text="5161" LostFocus="Tb_Settings_PID_LostFocus" PreviewTextInput="Tb_Settings_PID_PreviewTextInput" />
+        <Label Content="VID" HorizontalAlignment="Left" Margin="19,61,0,0" VerticalAlignment="Top"/>
+        <Label Content="PID" HorizontalAlignment="Left" Margin="19,98,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Tb_Settings_BatteryVoltage_Min" HorizontalAlignment="Left" Height="23" Margin="71,190,0,0" Text="10.4" VerticalAlignment="Top" Width="62" LostFocus="Tb_Settings_BatteryVoltage_Min_LostFocus" PreviewTextInput="Tb_Settings_BatteryVoltage_Min_PreviewTextInput"/>
+        <TextBox x:Name="Tb_Settings_BatteryVoltage_Max" HorizontalAlignment="Left" Height="23" Margin="71,230,0,0" Text="13.7" VerticalAlignment="Top" Width="62" LostFocus="Tb_Settings_BatteryVoltage_Max_LostFocus" PreviewTextInput="Tb_Settings_BatteryVoltage_Max_PreviewTextInput" />
+        <TextBox x:Name="Tb_Settings_BatteryVoltage_MaxOnLoad" HorizontalAlignment="Left" Height="23" Margin="71,267,0,0" Text="12.5" VerticalAlignment="Top" Width="62" LostFocus="Tb_Settings_BatteryVoltage_MaxOnLoad_LostFocus" PreviewTextInput="Tb_Settings_BatteryVoltage_MaxOnLoad_PreviewTextInput"/>
+        <Label Content="мин." HorizontalAlignment="Left" Margin="19,190,0,0" VerticalAlignment="Top"/>
+        <Label Content="макс." HorizontalAlignment="Left" Margin="16,226,0,0" VerticalAlignment="Top"/>
+        <Label Content="макс. нагр." HorizontalAlignment="Left" Margin="0,264,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Cb_ShutdownAction" HorizontalAlignment="Left" Margin="399,124,0,0" VerticalAlignment="Top" Width="144" SelectedIndex="0" >
+            <ComboBoxItem Content="Завершение работы"/>
+            <ComboBoxItem Content="Гибернация"/>
+        </ComboBox>
+        <Label Content="При разряде батареи до" HorizontalAlignment="Left" Margin="342,93,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Tb_ShutdownVoltage" HorizontalAlignment="Left" Height="23" Margin="487,93,0,0" Text="10.4" VerticalAlignment="Top" Width="56" LostFocus="Tb_ShutdownVoltage_LostFocus" PreviewTextInput="Tb_ShutdownVoltage_PreviewTextInput" />
+        <Button x:Name="Btn_About" Content="О программе" HorizontalAlignment="Left" Margin="373,340,0,0" VerticalAlignment="Top" Width="95" Click="Btn_About_Click" />
+        <CheckBox x:Name="Chb_Settings_AlwaysOnTop" Content="Поверх всех окон" HorizontalAlignment="Left" Margin="330,242,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Tb_Settings_UpsVA" HorizontalAlignment="Left" Height="23" Margin="129,303,0,0" TextWrapping="Wrap" Text="1050" VerticalAlignment="Top" Width="62" LostFocus="Tb_Settings_UpsVA_LostFocus" PreviewTextInput="Tb_Settings_UpsVA_PreviewTextInput" />
+        <Label Content="Мощность ИБП, ВА" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Btn_SearchUps" Content="Найти ИБП" HorizontalAlignment="Left" Margin="71,141,0,0" VerticalAlignment="Top" Width="95" Click="Btn_SearchUps_Click" />
+        <CheckBox x:Name="Chb_Settings_RunMinimized" Content="Запускать свёрнутым" HorizontalAlignment="Left" Margin="330,290,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Btn_Cancel" Content="Отмена" HorizontalAlignment="Left" Margin="525,351,0,0" VerticalAlignment="Top" Width="75" Click="Btn_Cancel_Click"/>
     </Grid>
 </Window>

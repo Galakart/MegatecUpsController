@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MegatecUpsController.Properties;
+using System;
 using System.Globalization;
 using static MegatecUpsController.Structures;
 
@@ -56,6 +57,13 @@ namespace MegatecUpsController
                 InputVoltageHistory.Enqueue(0);
                 OutputVoltageHistory.Enqueue(0);
             }
+
+            UpsData.ShutdownAction = Settings.Default.shutdownAction;
+            UpsData.ShutdownVoltage = float.Parse(Settings.Default.shutdownVoltage, CultureInfo.InvariantCulture.NumberFormat);
+            UpsData.BatteryVoltageMax = float.Parse(Settings.Default.batteryVoltage_max, CultureInfo.InvariantCulture.NumberFormat);
+            UpsData.BatteryVoltageMin = float.Parse(Settings.Default.batteryVoltage_min, CultureInfo.InvariantCulture.NumberFormat);
+            UpsData.BatteryVoltageMaxOnLoad = float.Parse(Settings.Default.batteryVoltage_maxOnLoad, CultureInfo.InvariantCulture.NumberFormat);
+            UpsData.UpsVA = float.Parse(Settings.Default.upsVA, CultureInfo.InvariantCulture.NumberFormat);
 
         }
 
