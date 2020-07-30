@@ -1,4 +1,5 @@
 ﻿using FontAwesome.WPF;
+using log4net;
 using MegatecUpsController.Properties;
 using Microsoft.Win32;
 using System;
@@ -22,14 +23,17 @@ namespace MegatecUpsController
     {
 
         private System.Threading.Timer timerUI;
+        private static readonly ILog applog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog eventlog = LogManager.GetLogger("eventlog");
 
-        
+
         NotifyIcon ni = new NotifyIcon();
         double[] x = new double[60];
 
         public MainWindow()
         {
             InitializeComponent();
+            log4net.Config.XmlConfigurator.Configure();
             LoadUiSettings();
 
             for (int i = 0; i < x.Length; i++)
@@ -54,6 +58,8 @@ namespace MegatecUpsController
             TimerCallback tm = new TimerCallback(TimerActionRefreshUI);
             timerUI = new System.Threading.Timer(tm, null, 0, 1000);
 
+            applog.Info("app log normal");
+            eventlog.Info("event log normal");
 
         }
 
