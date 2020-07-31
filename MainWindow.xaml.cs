@@ -112,6 +112,7 @@ namespace MegatecUpsController
                     Lbl_CurVA.Content = "???";
                     Pb_BatteryLevel.Value = 0;
                     Lbl_BatteryVoltage.Content = "???";
+                    Lbl_PowerInfo.Content = "";
 
                     UpsData.InputVoltageHistory.Enqueue(0);
                     UpsData.OutputVoltageHistory.Enqueue(0);
@@ -152,6 +153,19 @@ namespace MegatecUpsController
                     {
                         Fa_UpsSoundSwitch.Icon = FontAwesomeIcon.VolumeOff;
                         Btn_UpsSoundSwitch.ToolTip = "Звук из ИБП (выключен)";
+                    }
+
+                    if (UpsData.IsUtilityFail)
+                    {
+                        Lbl_PowerInfo.FontWeight = FontWeights.Bold;
+                        Lbl_PowerInfo.Foreground = Brushes.Red;
+                        Lbl_PowerInfo.Content = "Питание: ОТ БАТАРЕИ";
+                    }
+                    else
+                    {
+                        Lbl_PowerInfo.FontWeight = FontWeights.Normal;
+                        Lbl_PowerInfo.Foreground = Brushes.Black;
+                        Lbl_PowerInfo.Content = "Питание: от сети";
                     }
 
                     VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
@@ -245,12 +259,23 @@ namespace MegatecUpsController
         }
 
         
-        private void Btn_OpenSettings_Click(object sender, RoutedEventArgs e)
+
+        private void Menu_About_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow about = new AboutWindow();
+            about.ShowDialog();
+        }
+
+        private void Menu_Settings_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindow settingsWindow = new SettingsWindow();
             settingsWindow.ShowDialog();
             LoadUiSettings();
         }
 
+        private void Menu_Close_Click(object sender, RoutedEventArgs e)
+        {
+            ExitApp(null, null);
+        }
     }
 }

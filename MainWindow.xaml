@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="Megatec UPS Controller" Height="550" Width="900" MinHeight="430" MinWidth="750" WindowStartupLocation="CenterScreen" Closing="MainForm_Closing" Loaded="MainForm_Loaded" SourceInitialized="MainForm_SourceInitialized" StateChanged="MainForm_StateChanged">
 
-    <DockPanel>
+    <DockPanel LastChildFill="True">
         <StatusBar DockPanel.Dock="Bottom" Height="30">
             <StatusBarItem>
                 <Ellipse x:Name="El_UpsStatus" Stroke="Black" StrokeThickness="2" Fill="Red" Width="15" Height="15" />
@@ -23,6 +23,19 @@
                 <Label x:Name="Lbl_RawInputData" Content="raw input data" />
             </StatusBarItem>
         </StatusBar>
+
+        <Menu DockPanel.Dock="Top" Background="White">
+            <MenuItem Header="Файл">
+                <MenuItem x:Name="Menu_Close" Header="Выход" Click="Menu_Close_Click" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Опции" >
+                <MenuItem x:Name="Menu_Settings" Header="Настройки" Click="Menu_Settings_Click" />
+            </MenuItem>
+            <MenuItem Header="Справка" >
+                <MenuItem x:Name="Menu_Help" Header="Онлайн-справка" />
+                <MenuItem x:Name="Menu_About" Header="О программе" Click="Menu_About_Click" />
+            </MenuItem>
+        </Menu>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -72,7 +85,7 @@
                 </GroupBox>
 
                 <GroupBox Grid.Column="2" Grid.Row="0">
-                    <GroupBox.Header>Батарея и AVR</GroupBox.Header>
+                    <GroupBox.Header>Батарея, звук, AVR</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal" ToolTip="Заряд батареи" HorizontalAlignment="Center">
@@ -85,31 +98,26 @@
                                 </Border>
                                 <Border Background="#00c000" CornerRadius="0,2,2,0" Padding="2" Width="7" Height="20" Margin="-2,0,-2,0"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" ToolTip="Состояние AVR" HorizontalAlignment="Center">
-                                <Ellipse x:Name="El_AvrStatus" Stroke="Black" StrokeThickness="1" Fill="Gray" Width="10" Height="10" />
-                                <Label x:Name="Lbl_AvrStatus" Content="AVR: выкл." FontWeight="Bold" />
-                            </StackPanel>
+                            <DockPanel LastChildFill="True" >
+                                <Button x:Name="Btn_UpsSoundSwitch" Width="20" Height="20" DockPanel.Dock="Right" Click="Btn_UpsSoundSwitch_Click" >
+                                    <Button.Content>
+                                        <fa:ImageAwesome x:Name="Fa_UpsSoundSwitch" Icon="VolumeOff" />
+                                    </Button.Content>
+                                </Button>
+                                <StackPanel Orientation="Horizontal" ToolTip="Состояние AVR" HorizontalAlignment="Center">
+                                    <Ellipse x:Name="El_AvrStatus" Stroke="Black" StrokeThickness="1" Fill="Gray" Width="10" Height="10" />
+                                    <Label x:Name="Lbl_AvrStatus" Content="AVR: выкл." FontWeight="Bold" />
+                                </StackPanel>
+                            </DockPanel>
+                            
                         </StackPanel>
                     </Viewbox>
                 </GroupBox>
 
                 <GroupBox Grid.Column="2" Grid.Row="1">
-                    <GroupBox.Header>Управление</GroupBox.Header>
-                    <Viewbox Stretch="None" VerticalAlignment="Top" Margin="0,5,0,0">
-                        <WrapPanel ItemHeight="30" ItemWidth="30" Orientation="Horizontal">
-                            <Button x:Name="Btn_UpsSoundSwitch" Click="Btn_UpsSoundSwitch_Click" >
-                                <Button.Content>
-                                    <fa:ImageAwesome x:Name="Fa_UpsSoundSwitch" Icon="VolumeOff" />
-                                </Button.Content>
-                            </Button>
-                            <Separator Opacity="0"/>
-                            <Button x:Name="Btn_OpenSettings" ToolTip="Настройки" Click="Btn_OpenSettings_Click" >
-                                <Button.Content>
-                                    <fa:ImageAwesome Icon="Cog" />
-                                </Button.Content>
-                            </Button>
-
-                        </WrapPanel>
+                    <GroupBox.Header>Инфо</GroupBox.Header>
+                    <Viewbox Stretch="Uniform" VerticalAlignment="Top" Margin="0,5,0,0">
+                        <Label x:Name="Lbl_PowerInfo" Content="" VerticalAlignment="Center" HorizontalAlignment="Right" />
                     </Viewbox>
                 </GroupBox>
 
