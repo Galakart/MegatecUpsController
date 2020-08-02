@@ -32,7 +32,7 @@
                 <MenuItem x:Name="Menu_Settings" Header="Настройки" Click="Menu_Settings_Click" />
             </MenuItem>
             <MenuItem Header="Справка" >
-                <MenuItem x:Name="Menu_Help" Header="Онлайн-справка" />
+                <MenuItem x:Name="Menu_Help" Header="Онлайн-справка" Click="Menu_Help_Click" />
                 <MenuItem x:Name="Menu_About" Header="О программе" Click="Menu_About_Click" />
             </MenuItem>
         </Menu>

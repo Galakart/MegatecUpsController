@@ -277,5 +277,10 @@ namespace MegatecUpsController
         {
             ExitApp(null, null);
         }
+
+        private void Menu_Help_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/Galakart/MegatecUpsController");
+        }
     }
 }

@@ -5,17 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MegatecUpsController"
         mc:Ignorable="d"
-        Title="О программе" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        Title="О программе" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
 
-        <TextBlock x:Name="Tb_AboutInfo" Text="Сообщение о программе и авторе + версия"></TextBlock>
+    <DockPanel LastChildFill="True">
 
-        <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button x:Name="Btn_Ok" IsDefault="True" MinWidth="60" Margin="0,0,10,0" Click="Btn_Ok_Click">OK</Button>
-        </WrapPanel>
-    </Grid>
+        <StatusBar DockPanel.Dock="Bottom" Height="35" FlowDirection="RightToLeft" Padding="10,0,0,0">
+            <StatusBarItem>
+                <Button x:Name="Btn_Ok" Width="90" Content="Ok" IsDefault="True" Click="Btn_Ok_Click" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <Image DockPanel.Dock="Left" x:Name="Img_Icon" HorizontalAlignment="Left" Height="75" Width="75" Source="pack://siteoforigin:,,,/AppIcon.ico" VerticalAlignment="Top" Margin="0,10,0,0"/>
+
+        <StackPanel Orientation="Vertical" Margin="10">
+            <TextBlock x:Name="Tb_AboutInfo" TextWrapping="Wrap" >
+                Megatec UPS Controller <LineBreak/><LineBreak/>
+                Copyright © 2020 Artem Galaktionov <LineBreak/><LineBreak/>
+                <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController" RequestNavigate="Hyperlink_RequestNavigate">
+                    Github
+                </Hyperlink> <LineBreak/>
+            </TextBlock>
+            <TextBlock x:Name="Tb_Version" Text="Версия *.*.*" />
+            <Separator Margin="0,10"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Donate BTC:" />
+                <TextBox x:Name="Tb_DonateBTC" Height="23" Text="bc1q5aptd289qsvrtsf9t2z42udda5t70e7hc39sc2" IsReadOnly="True" GotFocus="Tb_DonateBTC_GotFocus" Padding="0,0,10,0"/>
+            </StackPanel>
+        </StackPanel>
+        
+    </DockPanel>    
 </Window>
