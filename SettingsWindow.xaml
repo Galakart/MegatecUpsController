@@ -21,72 +21,64 @@
         <Grid >
             <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="120" Width="140">
                 <GroupBox.Header>Usb подключение</GroupBox.Header>
-                <Viewbox Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
-                        <StackPanel Orientation="Horizontal" >
-                            <Label Content="VID (hex):" Margin="0,0,5,0" />
-                            <TextBox x:Name="Tb_Settings_VID" Height="23" Width="50" Text="0665" LostFocus="Tb_Settings_VID_LostFocus" PreviewTextInput="Tb_Settings_VID_PreviewTextInput" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <Label Content="PID (hex):" Margin="0,0,5,0" />
-                            <TextBox x:Name="Tb_Settings_PID" Height="23" Width="50" Text="5161" LostFocus="Tb_Settings_PID_LostFocus" PreviewTextInput="Tb_Settings_PID_PreviewTextInput" />
-                        </StackPanel>
-                        <Button x:Name="Btn_SearchUps" Content="Найти ИБП" Click="Btn_SearchUps_Click" Margin="0,5,0,0" />
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="VID (hex):" Margin="0,0,5,0" />
+                        <TextBox x:Name="Tb_Settings_VID" Height="23" Width="50" Text="0665" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyInt" />
                     </StackPanel>
-                </Viewbox>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="PID (hex):" Margin="0,0,5,0" />
+                        <TextBox x:Name="Tb_Settings_PID" Height="23" Width="50" Text="5161" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyInt" />
+                    </StackPanel>
+                    <Button x:Name="Btn_SearchUps" Content="Найти ИБП" Click="Btn_SearchUps_Click" Margin="0,5,0,0" />
+                </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,10,0,0" Height="120" Width="213">
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,10,0,0" Height="120" Width="215">
                 <GroupBox.Header>Действие ИБП</GroupBox.Header>
-                <Viewbox Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
-                        <StackPanel Orientation="Horizontal" >
-                            <Label Content="При разряде батареи до:" Margin="0,0,5,0" />
-                            <TextBox x:Name="Tb_ShutdownVoltage" Height="23" Width="40" Text="10.4" LostFocus="Tb_ShutdownVoltage_LostFocus" PreviewTextInput="Tb_ShutdownVoltage_PreviewTextInput" />
-                        </StackPanel>
-                        <ComboBox x:Name="Cb_ShutdownAction" SelectedIndex="0" Margin="0,5,0,0" >
-                            <ComboBoxItem Content="Завершение работы"/>
-                            <ComboBoxItem Content="Гибернация"/>
-                        </ComboBox>
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="При разряде батареи до:" Margin="0,0,5,0" />
+                        <TextBox x:Name="Tb_ShutdownVoltage" Height="23" Width="40" Text="10.4" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat" />
                     </StackPanel>
-                </Viewbox>
+                    <ComboBox x:Name="Cb_ShutdownAction" SelectedIndex="0" Margin="0,5,0,0" >
+                        <ComboBoxItem Content="Завершение работы"/>
+                        <ComboBoxItem Content="Гибернация"/>
+                    </ComboBox>
+                </StackPanel>
             </GroupBox>
 
             <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,135,0,0" Height="150" Width="300">
                 <GroupBox.Header>Параметры ИБП</GroupBox.Header>
-                <Viewbox Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                            <Label Content="Батарея, минимальный заряд, вольт:" Margin="0,0,5,0" />
-                            <TextBox x:Name="Tb_Settings_BatteryVoltage_Min" Height="23" Width="40" Text="10.4" LostFocus="Tb_Settings_BatteryVoltage_Min_LostFocus" PreviewTextInput="Tb_Settings_BatteryVoltage_Min_PreviewTextInput"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
-                            <Label Content="Батарея, максимальный заряд, вольт:" Margin="0,0,5,0" />
-                            <TextBox x:Name="Tb_Settings_BatteryVoltage_Max" Height="23" Width="40" Text="13.7" LostFocus="Tb_Settings_BatteryVoltage_Max_LostFocus" PreviewTextInput="Tb_Settings_BatteryVoltage_Max_PreviewTextInput" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
-                            <Label Content="Батарея, максимум вольт при нагрузке:" Margin="0,0,5,0" />
-                            <TextBox x:Name="Tb_Settings_BatteryVoltage_MaxOnLoad" Height="23" Width="40" Text="12.5" LostFocus="Tb_Settings_BatteryVoltage_MaxOnLoad_LostFocus" PreviewTextInput="Tb_Settings_BatteryVoltage_MaxOnLoad_PreviewTextInput"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
-                            <Label Content="Мощность ИБП, вольт-ампер:" Margin="0,0,5,0" />
-                            <TextBox x:Name="Tb_Settings_UpsVA" Height="23" Width="40" Text="1050" LostFocus="Tb_Settings_UpsVA_LostFocus" PreviewTextInput="Tb_Settings_UpsVA_PreviewTextInput" />
-                        </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <Label Content="Батарея, минимальный заряд, вольт:" Margin="0,0,5,0" />
+                        <TextBox x:Name="Tb_Settings_BatteryVoltage_Min" Height="23" Width="40" Text="10.4" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat"/>
                     </StackPanel>
-                </Viewbox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
+                        <Label Content="Батарея, максимальный заряд, вольт:" Margin="0,0,5,0" />
+                        <TextBox x:Name="Tb_Settings_BatteryVoltage_Max" Height="23" Width="40" Text="13.7" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
+                        <Label Content="Батарея, максимум вольт при нагрузке:" Margin="0,0,5,0" />
+                        <TextBox x:Name="Tb_Settings_BatteryVoltage_MaxOnLoad" Height="23" Width="40" Text="12.5" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
+                        <Label Content="Мощность ИБП, вольт-ампер:" Margin="0,0,5,0" />
+                        <TextBox x:Name="Tb_Settings_UpsVA" Height="23" Width="40" Text="1050" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat" />
+                    </StackPanel>
+                </StackPanel>
             </GroupBox>
 
             <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,290,0,0" Height="93" Width="213">
                 <GroupBox.Header>Прочее</GroupBox.Header>
-                <Viewbox Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
-                        <CheckBox x:Name="Chb_Settings_AlwaysOnTop" Content="Поверх всех окон" />
-                        <CheckBox x:Name="Chb_Settings_RunOnStartup" Content="Запускать при старте Windows" Margin="0,5,0,0"/>
-                        <CheckBox x:Name="Chb_Settings_RunMinimized" Content="Запускать свёрнутым" Margin="0,5,0,0"/>
-                    </StackPanel>
-                </Viewbox>
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <CheckBox x:Name="Chb_Settings_AlwaysOnTop" Content="Поверх всех окон" />
+                    <CheckBox x:Name="Chb_Settings_RunOnStartup" Content="Запускать при старте Windows" Margin="0,5,0,0"/>
+                    <CheckBox x:Name="Chb_Settings_RunMinimized" Content="Запускать свёрнутым" Margin="0,5,0,0"/>
+                </StackPanel>
             </GroupBox>
         </Grid>
+        
     </DockPanel>
-
 </Window>

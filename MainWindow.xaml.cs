@@ -21,67 +21,33 @@ namespace MegatecUpsController
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        private System.Threading.Timer timerUI;
-        private static readonly ILog applog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
+        private static readonly ILog applog = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly ILog eventlog = LogManager.GetLogger("eventlog");
 
+        private readonly System.Threading.Timer timerUI;
 
-        NotifyIcon ni = new NotifyIcon();
-        double[] x = new double[60];
+        private readonly NotifyIcon trayIcon = new NotifyIcon();
+        private readonly double[] xAxis = new double[60];
 
         public MainWindow()
         {
-            InitializeComponent();
-            log4net.Config.XmlConfigurator.Configure();
-            LoadUiSettings();
-
-            for (int i = 0; i < x.Length; i++)
-                x[i] = i;
-
-            MenuItem MainMenuItem = new MenuItem("Главное окно", new EventHandler(ShowMainWindow));
-            MenuItem SettingsMenuItem = new MenuItem("Настройки", new EventHandler(ShowSettingsWindow));
-            MenuItem AboutMenuItem = new MenuItem("О программе", new EventHandler(ShowAboutWindow));
-            MenuItem ExitMenuItem = new MenuItem("Выход", new EventHandler(ExitApp));
-
-            ni.Icon = Properties.Resources.AppIcon;
-            ni.Visible = true;
-            ni.ContextMenu = new ContextMenu(new MenuItem[] { MainMenuItem, SettingsMenuItem, AboutMenuItem, ExitMenuItem });
-            ni.Text = "ToolTipText";
-            ni.DoubleClick +=
-                delegate (object sender, EventArgs args)
-                {
-                    Show();
-                    WindowState = WindowState.Normal;
-                };
+            InitializeComponent();            
+            LoadSettings();
+            SetupTrayIcon();
 
             TimerCallback tm = new TimerCallback(TimerActionRefreshUI);
             timerUI = new System.Threading.Timer(tm, null, 0, 1000);
 
-            applog.Info("app log normal");
-            eventlog.Info("event log normal");
-
+            eventlog.Info("Приложение запущено");
         }
 
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private void LoadSettings()
         {
-            Message m = new Message
-            {
-                HWnd = hwnd,
-                Msg = msg,
-                WParam = wParam,
-                LParam = lParam
-            };
-            UsbOps.usb.ParseMessages(ref m);
-            return IntPtr.Zero;
-        }
+            log4net.Config.XmlConfigurator.Configure();
 
-
-        private void LoadUiSettings()
-        {
-            
-
-            
+            for (int i = 0; i < xAxis.Length; i++)
+                xAxis[i] = i;
 
             if (Settings.Default.alwaysOnTop)
             {
@@ -91,15 +57,31 @@ namespace MegatecUpsController
             {
                 Topmost = false;
             }
-
-            
-
         }
 
+        private void SetupTrayIcon()
+        {
+            MenuItem MainMenuItem = new MenuItem("Главное окно", new EventHandler(ShowMainWindow));
+            MenuItem SettingsMenuItem = new MenuItem("Настройки", new EventHandler(ShowSettingsWindow));
+            MenuItem AboutMenuItem = new MenuItem("О программе", new EventHandler(ShowAboutWindow));
+            MenuItem ExitMenuItem = new MenuItem("Выход", new EventHandler(ExitApp));
+
+            trayIcon.Icon = Properties.Resources.AppIcon;
+            trayIcon.Visible = true;
+            trayIcon.ContextMenu = new ContextMenu(new MenuItem[] { MainMenuItem, SettingsMenuItem, AboutMenuItem, ExitMenuItem });
+            trayIcon.Text = "ToolTipText";
+            trayIcon.DoubleClick +=
+                delegate (object sender, EventArgs args)
+                {
+                    Show();
+                    WindowState = WindowState.Normal;
+                };
+        }
 
         private void TimerActionRefreshUI(object obj)
         {
-            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)delegate {
+            System.Windows.Application.Current.Dispatcher.Invoke(delegate
+            {
                 if ((DateTime.Now - UpsData.LastUpdated).TotalSeconds > 10)
                 {
                     Lbl_InputVoltage.Content = "???";
@@ -112,13 +94,13 @@ namespace MegatecUpsController
                     Lbl_CurVA.Content = "???";
                     Pb_BatteryLevel.Value = 0;
                     Lbl_BatteryVoltage.Content = "???";
-                    Lbl_PowerInfo.Content = "";
+                    Lbl_PowerInfo.Content = "Нет данных от ИБП";
 
                     UpsData.InputVoltageHistory.Enqueue(0);
                     UpsData.OutputVoltageHistory.Enqueue(0);
 
-                    VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
-                    VoltageOutputGraph.PlotBars(x, UpsData.OutputVoltageHistory);
+                    VoltageInputGraph.Plot(xAxis, UpsData.InputVoltageHistory);
+                    VoltageOutputGraph.PlotBars(xAxis, UpsData.OutputVoltageHistory);
                 }
                 else
                 {
@@ -168,8 +150,8 @@ namespace MegatecUpsController
                         Lbl_PowerInfo.Content = "Питание: от сети";
                     }
 
-                    VoltageInputGraph.Plot(x, UpsData.InputVoltageHistory);
-                    VoltageOutputGraph.PlotBars(x, UpsData.OutputVoltageHistory);
+                    VoltageInputGraph.Plot(xAxis, UpsData.InputVoltageHistory);
+                    VoltageOutputGraph.PlotBars(xAxis, UpsData.OutputVoltageHistory);
                 }
 
                 if (UpsData.ConnectStatus)
@@ -188,12 +170,43 @@ namespace MegatecUpsController
             });
         }
 
-
-
-        private void MainForm_StateChanged(object sender, EventArgs e)
+        private void Btn_UpsSoundSwitch_Click(object sender, RoutedEventArgs e)
         {
+            UsbOps.SwitchUpsBeeper();
         }
 
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            Message m = new Message
+            {
+                HWnd = hwnd,
+                Msg = msg,
+                WParam = wParam,
+                LParam = lParam
+            };
+            UsbOps.usb.ParseMessages(ref m);
+            return IntPtr.Zero;
+        }
+
+        private void MainForm_SourceInitialized(object sender, EventArgs e)
+        {
+            var handle = new WindowInteropHelper(this).Handle;
+            UsbOps.usb.RegisterHandle(handle);
+        }
+
+        private void MainForm_Loaded(object sender, RoutedEventArgs e)
+        {
+            HwndSource src = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+            src.AddHook(new HwndSourceHook(WndProc));
+            UsbOps.SetupUsbDevice(int.Parse(Settings.Default.vid, NumberStyles.AllowHexSpecifier), int.Parse(Settings.Default.pid, NumberStyles.AllowHexSpecifier));
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+            base.OnClosing(e);
+        }
 
         private void ShowMainWindow(object sender, EventArgs e)
         {
@@ -205,7 +218,7 @@ namespace MegatecUpsController
         {
             SettingsWindow settingsWindow = new SettingsWindow();
             settingsWindow.ShowDialog();
-            LoadUiSettings();
+            LoadSettings();
         }
 
         private void ShowAboutWindow(object sender, EventArgs e)
@@ -218,69 +231,30 @@ namespace MegatecUpsController
         {
             UsbOps.StopUsbTimer();
             timerUI.Dispose();
-            ni.Dispose();
+            trayIcon.Dispose();
+            eventlog.Info("Приложение закрыто");
             App.Current.Shutdown();
         }
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            e.Cancel = true;
-            Hide();
-            base.OnClosing(e);
-        }
-
-        private void Btn_UpsSoundSwitch_Click(object sender, RoutedEventArgs e)
-        {
-            UsbOps.sendSwitchBeeper();
-        }
-
-        private void MainForm_Closing(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void MainForm_Loaded(object sender, RoutedEventArgs e)
-        {
-            HwndSource src = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
-            src.AddHook(new HwndSourceHook(WndProc));
-            connectUps();
-        }
-
-        private void MainForm_SourceInitialized(object sender, EventArgs e)
-        {
-            var handle = new WindowInteropHelper(this).Handle;
-            UsbOps.usb.RegisterHandle(handle);
-        }
-
-
-        private bool connectUps()
-        {
-            return UsbOps.SetupUsbDevice(int.Parse(Settings.Default.vid, NumberStyles.AllowHexSpecifier), int.Parse(Settings.Default.pid, NumberStyles.AllowHexSpecifier));
-        }
-
-        
-
         private void Menu_About_Click(object sender, RoutedEventArgs e)
         {
-            AboutWindow about = new AboutWindow();
-            about.ShowDialog();
+            ShowAboutWindow(null, null);
         }
 
         private void Menu_Settings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settingsWindow = new SettingsWindow();
-            settingsWindow.ShowDialog();
-            LoadUiSettings();
-        }
-
-        private void Menu_Close_Click(object sender, RoutedEventArgs e)
-        {
-            ExitApp(null, null);
+            ShowSettingsWindow(null, null);
         }
 
         private void Menu_Help_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("https://github.com/Galakart/MegatecUpsController");
         }
+
+        private void Menu_Close_Click(object sender, RoutedEventArgs e)
+        {
+            ExitApp(null, null);
+        }
+                
     }
 }

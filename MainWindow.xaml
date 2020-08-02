@@ -7,9 +7,10 @@
         xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="Megatec UPS Controller" Height="550" Width="900" MinHeight="430" MinWidth="750" WindowStartupLocation="CenterScreen" Closing="MainForm_Closing" Loaded="MainForm_Loaded" SourceInitialized="MainForm_SourceInitialized" StateChanged="MainForm_StateChanged">
+        Title="Megatec UPS Controller" Height="550" Width="900" MinHeight="430" MinWidth="750" WindowStartupLocation="CenterScreen" Loaded="MainForm_Loaded" SourceInitialized="MainForm_SourceInitialized" >
 
     <DockPanel LastChildFill="True">
+
         <StatusBar DockPanel.Dock="Bottom" Height="30">
             <StatusBarItem>
                 <Ellipse x:Name="El_UpsStatus" Stroke="Black" StrokeThickness="2" Fill="Red" Width="15" Height="15" />
@@ -20,7 +21,7 @@
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <Label x:Name="Lbl_RawInputData" Content="raw input data" />
+                <Label x:Name="Lbl_RawInputData" Content="raw input data" ToolTip="Строка данных, полученная от ИБП" />
             </StatusBarItem>
         </StatusBar>
 
@@ -49,38 +50,42 @@
 
             <Grid Grid.Column="0" Grid.Row="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                
                 <GroupBox Grid.Column="0" Grid.Row="0">
                     <GroupBox.Header>Uвх.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
-                        <Label x:Name="Lbl_InputVoltage" Content="???" ToolTip="Входное напряжение" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" />
+                        <Label x:Name="Lbl_InputVoltage" Content="???" ToolTip="Входное напряжение, вольт" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
+                
                 <GroupBox Grid.Column="0" Grid.Row="1">
                     <GroupBox.Header>Uвых.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
-                        <Label x:Name="Lbl_OutputVoltage" Content="???" ToolTip="Выходное напряжение" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" />
+                        <Label x:Name="Lbl_OutputVoltage" Content="???" ToolTip="Выходное напряжение, вольт" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
+                
                 <GroupBox Grid.Column="1" Grid.Row="0">
                     <GroupBox.Header>t.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
-                        <Label x:Name="Lbl_Temperature" Content="???" ToolTip="Температура внутри ИБП" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" />
+                        <Label x:Name="Lbl_Temperature" Content="???" ToolTip="Температура ИБП" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
+                
                 <GroupBox Grid.Column="1" Grid.Row="1">
                     <GroupBox.Header>Hz</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
-                        <Label x:Name="Lbl_Hz" Content="???" ToolTip="Частота тока" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" />
+                        <Label x:Name="Lbl_Hz" Content="???" ToolTip="Частота тока, герц" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
 
@@ -88,10 +93,10 @@
                     <GroupBox.Header>Батарея, звук, AVR</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
                         <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal" ToolTip="Заряд батареи" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" ToolTip="Заряд батареи, проценты и вольты" HorizontalAlignment="Center">
                                 <Border BorderBrush="#00c000" BorderThickness="2" CornerRadius="5" Padding="2" Width="125" Height="50">
                                     <Grid Name="progressBarContainer">
-                                        <ProgressBar x:Name="Pb_BatteryLevel" Orientation="Horizontal" VerticalAlignment="Center" Background="{x:Null}" Value="50" Height="{Binding ElementName=progressBarContainer, Path=ActualHeight}" SnapsToDevicePixels="True" Foreground="#00c000" BorderBrush="{x:Null}" />
+                                        <ProgressBar x:Name="Pb_BatteryLevel" Orientation="Horizontal" VerticalAlignment="Center" Background="{x:Null}" Value="50" Height="{Binding ElementName=progressBarContainer, Path=ActualHeight}" Foreground="#00c000" BorderBrush="{x:Null}" />
                                         <TextBlock Text="{Binding ElementName=Pb_BatteryLevel, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Top" />
                                         <Label x:Name="Lbl_BatteryVoltage" Content="???" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="Bold" />
                                     </Grid>
@@ -109,7 +114,7 @@
                                     <Label x:Name="Lbl_AvrStatus" Content="AVR: выкл." FontWeight="Bold" />
                                 </StackPanel>
                             </DockPanel>
-                            
+
                         </StackPanel>
                     </Viewbox>
                 </GroupBox>
@@ -117,40 +122,44 @@
                 <GroupBox Grid.Column="2" Grid.Row="1">
                     <GroupBox.Header>Инфо</GroupBox.Header>
                     <Viewbox Stretch="Uniform" VerticalAlignment="Top" Margin="0,5,0,0">
-                        <Label x:Name="Lbl_PowerInfo" Content="" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                        <Label x:Name="Lbl_PowerInfo" Content="Нет данных от ИБП" />
                     </Viewbox>
                 </GroupBox>
 
                 <GroupBox Grid.Column="3" Grid.Row="0">
                     <GroupBox.Header>%нагр.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
-                        <Label x:Name="Lbl_LoadPercent" Content="???" ToolTip="Процент нагрузки" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" />
+                        <Label x:Name="Lbl_LoadPercent" Content="???" ToolTip="Процент нагрузки" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
+                
                 <GroupBox Grid.Column="3" Grid.Row="1">
                     <GroupBox.Header>Iнагр.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
-                        <Label x:Name="Lbl_CurAmper" Content="???" ToolTip="Сила тока нагрузки" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" />
+                        <Label x:Name="Lbl_CurAmper" Content="???" ToolTip="Сила тока нагрузки, ампер" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
+                
                 <GroupBox Grid.Column="4" Grid.Row="0">
                     <GroupBox.Header>Pнагр.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
-                        <Label x:Name="Lbl_CurWatt" Content="???" ToolTip="Мощность, ватт" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" />
+                        <Label x:Name="Lbl_CurWatt" Content="???" ToolTip="Мощность, ватт" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
+                
                 <GroupBox Grid.Column="4" Grid.Row="1">
-                    <GroupBox.Header>Sнагр.</GroupBox.Header>
+                    <GroupBox.Header>VAнагр.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
-                        <Label x:Name="Lbl_CurVA" Content="???" ToolTip="Мощность, вольт-ампер" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" />
+                        <Label x:Name="Lbl_CurVA" Content="???" ToolTip="Мощность, вольт-ампер" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
+                
             </Grid>
 
             <GridSplitter Grid.Column="0" Grid.Row="1" ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 
             <Grid Grid.Column="0" Grid.Row="2">
-                <d3:Chart BottomTitle="Время" LeftTitle="Вольт" IsVerticalNavigationEnabled="False" IsHorizontalNavigationEnabled="False" Margin="0,5,0,0" PlotHeight="310" PlotWidth="59.5" LegendVisibility="Hidden">
+                <d3:Chart BottomTitle="Время" LeftTitle="Вольт" IsVerticalNavigationEnabled="False" IsHorizontalNavigationEnabled="False" Margin="0,5,5,0" PlotHeight="310" PlotWidth="60" LegendVisibility="Hidden" PlotOriginX="-0.5">
                     <d3:Plot x:Name="plot">
                         <d3:BarGraph x:Name="VoltageOutputGraph" Description="Uвых." Color="DeepSkyBlue" StrokeThickness="1" BarsWidth="1" />
                         <d3:LineGraph x:Name="VoltageInputGraph" Description="Uвх." Stroke="Red" StrokeThickness="3"  />
@@ -166,10 +175,5 @@
 
         </Grid>
 
-
-
-
-
     </DockPanel>
-
 </Window>

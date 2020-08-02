@@ -1,4 +1,6 @@
-﻿using System;
+﻿using log4net;
+using System;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using UsbLibrary;
@@ -8,25 +10,28 @@ namespace MegatecUpsController
     static class UsbOps
     {
 
+        private static readonly ILog applog = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog eventlog = LogManager.GetLogger("eventlog");
+
         public static UsbHidPort usb = new UsbHidPort();
-        private static Timer timerUSB;
+        private static readonly Timer timerUSB;
         private static string rawDataDecoded = "";
 
-        private static readonly byte[] Q1request = ASCIIEncoding.ASCII.GetBytes("0Q1\r00000");
-        private static readonly byte[] Qrequest = ASCIIEncoding.ASCII.GetBytes("0Q\r000000");
+        private static readonly byte[] comm_status = Encoding.ASCII.GetBytes("0Q1\r00000");
+        private static readonly byte[] comm_beeper = Encoding.ASCII.GetBytes("0Q\r000000");
 
         static UsbOps()
         {
-            usb.OnSpecifiedDeviceArrived += new System.EventHandler(Usb_OnSpecifiedDeviceArrived);
-            usb.OnSpecifiedDeviceRemoved += new System.EventHandler(Usb_OnSpecifiedDeviceRemoved);
-            usb.OnDataSend += new System.EventHandler(Usb_OnDataSend);
-            usb.OnDataRecieved += new UsbLibrary.DataRecievedEventHandler(Usb_OnDataRecieved);
+            usb.OnSpecifiedDeviceArrived += new EventHandler(Usb_OnSpecifiedDeviceArrived);
+            usb.OnSpecifiedDeviceRemoved += new EventHandler(Usb_OnSpecifiedDeviceRemoved);
+            usb.OnDataSend += new EventHandler(Usb_OnDataSend);
+            usb.OnDataRecieved += new DataRecievedEventHandler(Usb_OnDataRecieved);
 
-            TimerCallback tm = new TimerCallback(TimerActionSendQ1);
+            TimerCallback tm = new TimerCallback(TimerActionDataRequest);
             timerUSB = new Timer(tm, null, 0, 1000);
         }
 
-        public static bool SetupUsbDevice(Int32 vid, Int32 pid)
+        public static bool SetupUsbDevice(int vid, int pid)
         {
             if (usb.Ready())
             {
@@ -58,35 +63,37 @@ namespace MegatecUpsController
             }                
         }
 
-        private static void TimerActionSendQ1(object obj)
+        private static void TimerActionDataRequest(object obj)
         {
             if (usb.SpecifiedDevice != null)
             {
-                usb.SpecifiedDevice.SendData(Q1request);
+                usb.SpecifiedDevice.SendData(comm_status);
             }
         }
 
-        public static void sendSwitchBeeper()
+        public static void SwitchUpsBeeper()
         {
-            usb.SpecifiedDevice.SendData(Qrequest);
+            if (usb.SpecifiedDevice != null)
+            {
+                usb.SpecifiedDevice.SendData(comm_beeper);
+            }
         }
-
 
         private static void Usb_OnSpecifiedDeviceArrived(object sender, EventArgs e)
         {
-            //device found
+            eventlog.Info("ИБП подключён");
             UpsData.ConnectStatus = true;
         }
 
         private static void Usb_OnSpecifiedDeviceRemoved(object sender, EventArgs e)
         {
-            //device lost
+            eventlog.Info("Потеряно соединение с ИБП");
             UpsData.ConnectStatus = false;
         }
 
         private static void Usb_OnDataSend(object sender, EventArgs e)
         {
-            //data was sent
+            //data sent
         }
 
         private static void Usb_OnDataRecieved(object sender, DataRecievedEventArgs args)

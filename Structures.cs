@@ -9,15 +9,15 @@ namespace MegatecUpsController
             public int FixedCapacity { get; }
             public SizedQueue(int fixedCapacity)
             {
-                this.FixedCapacity = fixedCapacity;
+                FixedCapacity = fixedCapacity;
             }
 
             public new T Enqueue(T item)
             {
                 base.Enqueue(item);
-                if (base.Count > FixedCapacity)
+                if (Count > FixedCapacity)
                 {
-                    return base.Dequeue();
+                    return Dequeue();
                 }
                 return default;
             }

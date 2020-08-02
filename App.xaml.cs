@@ -65,8 +65,8 @@ namespace MegatecUpsController
 
         public void Activate()
         {
-            this.MainWindow.WindowState = WindowState.Normal;
-            this.MainWindow.Activate();
+            MainWindow.WindowState = WindowState.Normal;
+            MainWindow.Activate();
         }
     }
 }

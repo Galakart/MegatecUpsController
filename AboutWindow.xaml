@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MegatecUpsController"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="О программе" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
 
@@ -18,20 +19,26 @@
         <Image DockPanel.Dock="Left" x:Name="Img_Icon" HorizontalAlignment="Left" Height="75" Width="75" Source="pack://siteoforigin:,,,/AppIcon.ico" VerticalAlignment="Top" Margin="0,10,0,0"/>
 
         <StackPanel Orientation="Vertical" Margin="10">
-            <TextBlock x:Name="Tb_AboutInfo" TextWrapping="Wrap" >
+            <TextBlock x:Name="Tb_AboutInfo" >
                 Megatec UPS Controller <LineBreak/><LineBreak/>
                 Copyright © 2020 Artem Galaktionov <LineBreak/><LineBreak/>
                 <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController" RequestNavigate="Hyperlink_RequestNavigate">
                     Github
-                </Hyperlink> <LineBreak/>
+                </Hyperlink>
+                <LineBreak/>
             </TextBlock>
             <TextBlock x:Name="Tb_Version" Text="Версия *.*.*" />
             <Separator Margin="0,10"/>
+            <Label Content="Donate:" />
             <StackPanel Orientation="Horizontal">
-                <Label Content="Donate BTC:" />
+                <Label >
+                    <Label.Content>
+                        <fa:ImageAwesome x:Name="Fa_UpsSoundSwitch" Icon="Bitcoin" Width="25" Height="25" Foreground="Orange" />
+                    </Label.Content>
+                </Label>
                 <TextBox x:Name="Tb_DonateBTC" Height="23" Text="bc1q5aptd289qsvrtsf9t2z42udda5t70e7hc39sc2" IsReadOnly="True" GotFocus="Tb_DonateBTC_GotFocus" Padding="0,0,10,0"/>
             </StackPanel>
         </StackPanel>
-        
-    </DockPanel>    
+
+    </DockPanel>
 </Window>

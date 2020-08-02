@@ -20,7 +20,7 @@ namespace MegatecUpsController
 
         private void Btn_Ok_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            DialogResult = true;
         }
 
         private void Tb_DonateBTC_GotFocus(object sender, RoutedEventArgs e)

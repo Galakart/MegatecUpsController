@@ -1,6 +1,8 @@
-﻿using MegatecUpsController.Properties;
+﻿using log4net;
+using MegatecUpsController.Properties;
 using System;
 using System.Globalization;
+using System.Reflection;
 using static MegatecUpsController.Structures;
 
 namespace MegatecUpsController
@@ -50,21 +52,28 @@ namespace MegatecUpsController
         public static DateTime LastUpdated { get; private set; }
         public static bool ConnectStatus { get; set; }
 
+        private static readonly ILog applog = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog eventlog = LogManager.GetLogger("eventlog");
+
         static UpsData()
         {
+            LoadSettings();
+        }
+
+        private static void LoadSettings()
+        {
+            ShutdownAction = Settings.Default.shutdownAction;
+            ShutdownVoltage = float.Parse(Settings.Default.shutdownVoltage, CultureInfo.InvariantCulture.NumberFormat);
+            BatteryVoltageMax = float.Parse(Settings.Default.batteryVoltage_max, CultureInfo.InvariantCulture.NumberFormat);
+            BatteryVoltageMin = float.Parse(Settings.Default.batteryVoltage_min, CultureInfo.InvariantCulture.NumberFormat);
+            BatteryVoltageMaxOnLoad = float.Parse(Settings.Default.batteryVoltage_maxOnLoad, CultureInfo.InvariantCulture.NumberFormat);
+            UpsVA = float.Parse(Settings.Default.upsVA, CultureInfo.InvariantCulture.NumberFormat);
+
             for (int i = 0; i < 60; i++)
             {
                 InputVoltageHistory.Enqueue(0);
                 OutputVoltageHistory.Enqueue(0);
             }
-
-            UpsData.ShutdownAction = Settings.Default.shutdownAction;
-            UpsData.ShutdownVoltage = float.Parse(Settings.Default.shutdownVoltage, CultureInfo.InvariantCulture.NumberFormat);
-            UpsData.BatteryVoltageMax = float.Parse(Settings.Default.batteryVoltage_max, CultureInfo.InvariantCulture.NumberFormat);
-            UpsData.BatteryVoltageMin = float.Parse(Settings.Default.batteryVoltage_min, CultureInfo.InvariantCulture.NumberFormat);
-            UpsData.BatteryVoltageMaxOnLoad = float.Parse(Settings.Default.batteryVoltage_maxOnLoad, CultureInfo.InvariantCulture.NumberFormat);
-            UpsData.UpsVA = float.Parse(Settings.Default.upsVA, CultureInfo.InvariantCulture.NumberFormat);
-
         }
 
         public static void UpdateData(string RawData)
@@ -85,14 +94,27 @@ namespace MegatecUpsController
                 Temperature = float.Parse(arrayOfData[6], CultureInfo.InvariantCulture.NumberFormat);
                 BinaryStatus = arrayOfData[7];
 
-                if (BinaryStatus[0].Equals('1')) IsUtilityFail = true; else IsUtilityFail = false;
-                if (BinaryStatus[1].Equals('1')) IsBatteryLow = true; else IsBatteryLow = false;
-                if (BinaryStatus[2].Equals('1')) IsActiveAVR = true; else IsActiveAVR = false;
-                if (BinaryStatus[3].Equals('1')) IsUpsFailed = true; else IsUpsFailed = false;
-                if (BinaryStatus[4].Equals('1')) IsStandby = true; else IsStandby = false;
-                if (BinaryStatus[5].Equals('1')) IsTestInProgress = true; else IsTestInProgress = false;
-                if (BinaryStatus[6].Equals('1')) IsShutdownActive = true; else IsShutdownActive = false;
-                if (BinaryStatus[7].Equals('1')) IsBeeperOn = true; else IsBeeperOn = false;
+
+                if (IsActiveAVR != BinaryStatus[2].Equals('1'))
+                {
+                    if (IsActiveAVR)
+                    {
+                        eventlog.Info("AVR выключен");
+                    }
+                    else
+                    {
+                        eventlog.Info("AVR активирован");
+                    }
+                }
+
+                IsUtilityFail = BinaryStatus[0].Equals('1');
+                IsBatteryLow = BinaryStatus[1].Equals('1');
+                IsActiveAVR = BinaryStatus[2].Equals('1');
+                IsUpsFailed = BinaryStatus[3].Equals('1');
+                IsStandby = BinaryStatus[4].Equals('1');
+                IsTestInProgress = BinaryStatus[5].Equals('1');
+                IsShutdownActive = BinaryStatus[6].Equals('1');
+                IsBeeperOn = BinaryStatus[7].Equals('1');
 
                 if (IsUtilityFail)
                 {
@@ -114,23 +136,20 @@ namespace MegatecUpsController
                     CurAmper = 0;
                 }
 
-
-                InputVoltageHistory.Enqueue(UpsData.InputVoltage);
-                OutputVoltageHistory.Enqueue(UpsData.OutputVoltage);
+                InputVoltageHistory.Enqueue(InputVoltage);
+                OutputVoltageHistory.Enqueue(OutputVoltage);
 
                 LastUpdated = DateTime.Now;
             }
-            catch
+            catch (Exception e)
             {
-                //TODO log error
+                applog.Error("Error parsing UPS incoming data. " + e.Message);
             }
-
 
             if (IsUtilityFail)
             {
                 CheckShutdownAction();
             }
-
         }
 
         private static void CheckShutdownAction()
