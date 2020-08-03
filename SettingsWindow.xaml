@@ -22,7 +22,8 @@
             <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="120" Width="140">
                 <GroupBox.Header>Usb подключение</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
-                    <StackPanel Orientation="Horizontal" >
+                    <Button x:Name="Btn_SearchUps" Content="Найти ИБП" Click="Btn_SearchUps_Click" />
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
                         <Label Content="VID (hex):" Margin="0,0,5,0" />
                         <TextBox x:Name="Tb_Settings_VID" Height="23" Width="50" Text="0665" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyInt" />
                     </StackPanel>
@@ -30,7 +31,7 @@
                         <Label Content="PID (hex):" Margin="0,0,5,0" />
                         <TextBox x:Name="Tb_Settings_PID" Height="23" Width="50" Text="5161" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyInt" />
                     </StackPanel>
-                    <Button x:Name="Btn_SearchUps" Content="Найти ИБП" Click="Btn_SearchUps_Click" Margin="0,5,0,0" />
+                    
                 </StackPanel>
             </GroupBox>
 

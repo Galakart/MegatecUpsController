@@ -21,6 +21,11 @@
         <StackPanel Orientation="Vertical" Margin="10">
             <TextBlock x:Name="Tb_AboutInfo" >
                 Megatec UPS Controller <LineBreak/><LineBreak/>
+                Приложение для контроля вашего ИБП <LineBreak/>
+                на основе Megatec-протокола (Ippon и <LineBreak/>
+                некоторые другие), подключаемого к компьютеру <LineBreak/>
+                по USB, а также для управления <LineBreak/>
+                питанием компьютера.<LineBreak/><LineBreak/>
                 Copyright © 2020 Artem Galaktionov <LineBreak/><LineBreak/>
                 <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController" RequestNavigate="Hyperlink_RequestNavigate">
                     Github
