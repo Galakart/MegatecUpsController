@@ -20,7 +20,7 @@ namespace MegatecUpsController
         public static string BinaryStatus { get; private set; }
 
         // Decoded binary status data
-        public static bool IsUtilityFail { get; private set; }
+        public static bool IsUtilityFail { get; private set; } //true - питание от батарейки, false - от розетки
         public static bool IsBatteryLow { get; private set; }
         public static bool IsActiveAVR { get; private set; }
         public static bool IsUpsFailed { get; private set; }
@@ -40,7 +40,7 @@ namespace MegatecUpsController
         public static SizedQueue<double> OutputVoltageHistory = new SizedQueue<double>(60);
 
         //Settings data
-        public static int ShutdownAction { private get; set; }
+        public static int ShutdownAction { private get; set; } //0 - завершение работы, 1 - гибернация
         public static float ShutdownVoltage { private get; set; }
         public static float BatteryVoltageMax { private get; set; }
         public static float BatteryVoltageMin { private get; set; }
@@ -69,7 +69,7 @@ namespace MegatecUpsController
             BatteryVoltageMaxOnLoad = float.Parse(Settings.Default.batteryVoltage_maxOnLoad, CultureInfo.InvariantCulture.NumberFormat);
             UpsVA = float.Parse(Settings.Default.upsVA, CultureInfo.InvariantCulture.NumberFormat);
 
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < 60; i++) //заполнение у графика оси Y (напряжения) нулями
             {
                 InputVoltageHistory.Enqueue(0);
                 OutputVoltageHistory.Enqueue(0);
@@ -95,7 +95,7 @@ namespace MegatecUpsController
                 BinaryStatus = arrayOfData[7];
 
 
-                if (IsActiveAVR != BinaryStatus[2].Equals('1'))
+                if (IsActiveAVR != BinaryStatus[2].Equals('1')) //если старый статус AVR не равен новому
                 {
                     if (IsActiveAVR)
                     {
@@ -118,7 +118,7 @@ namespace MegatecUpsController
 
                 if (IsUtilityFail)
                 {
-                    BatteryPercent = Convert.ToInt32(100 - (100 / (BatteryVoltageMaxOnLoad - BatteryVoltageMin) * (BatteryVoltageMaxOnLoad - BatteryVoltage)));
+                    BatteryPercent = Convert.ToInt32(100 - (100 / (BatteryVoltageMaxOnLoad - BatteryVoltageMin) * (BatteryVoltageMaxOnLoad - BatteryVoltage))); //при переходе на батарейку, её напряжение проседает, если это не учитывать то процент заряда рывком упадёт до 80%
                 }
                 else
                 {
@@ -126,7 +126,7 @@ namespace MegatecUpsController
                 }
 
                 CurVA = LoadPercent * UpsVA / 100;
-                CurWatt = Convert.ToSingle(CurVA * 0.6);
+                CurWatt = Convert.ToSingle(CurVA * 0.6); //будем считать что cosφ (коэффициент активной мощности) у компов равен 0.6
                 if (OutputVoltage > 0)
                 {
                     CurAmper = (float)Math.Round(CurWatt / OutputVoltage, 1);

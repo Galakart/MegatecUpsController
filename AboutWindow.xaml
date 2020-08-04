@@ -10,37 +10,40 @@
 
     <DockPanel LastChildFill="True">
 
-        <StatusBar DockPanel.Dock="Bottom" Height="35" FlowDirection="RightToLeft" Padding="10,0,0,0">
+        <StatusBar DockPanel.Dock="Bottom" Height="35" FlowDirection="RightToLeft" Padding="8,0,0,0">
             <StatusBarItem>
                 <Button x:Name="Btn_Ok" Width="90" Content="Ok" IsDefault="True" Click="Btn_Ok_Click" />
             </StatusBarItem>
         </StatusBar>
 
-        <Image DockPanel.Dock="Left" x:Name="Img_Icon" HorizontalAlignment="Left" Height="75" Width="75" Source="pack://siteoforigin:,,,/AppIcon.ico" VerticalAlignment="Top" Margin="0,10,0,0"/>
+        <StackPanel DockPanel.Dock="Left">
+            <Image x:Name="Img_Icon" Height="75" Width="75" Source="pack://siteoforigin:,,,/AppIcon.ico" VerticalAlignment="Top" Margin="0,10,0,0"/>
+            <TextBlock x:Name="Tb_Version" Text="v*.*.*" FontWeight="Bold" FontSize="20" Margin="5,0" TextAlignment="Center" />
+        </StackPanel>
+        
 
         <StackPanel Orientation="Vertical" Margin="10">
-            <TextBlock x:Name="Tb_AboutInfo" >
-                Megatec UPS Controller <LineBreak/><LineBreak/>
-                Приложение для контроля вашего ИБП <LineBreak/>
-                на основе Megatec-протокола (Ippon и <LineBreak/>
-                некоторые другие), подключаемого к компьютеру <LineBreak/>
-                по USB, а также для управления <LineBreak/>
-                питанием компьютера.<LineBreak/><LineBreak/>
-                Copyright © 2020 Artem Galaktionov <LineBreak/><LineBreak/>
-                <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController" RequestNavigate="Hyperlink_RequestNavigate">
-                    Github
-                </Hyperlink>
-                <LineBreak/>
+            <TextBlock Text="Megatec UPS Controller" FontWeight="Bold" FontSize="30" Margin="0,0,0,5" TextAlignment="Center" FontFamily="Monotype Corsiva" />
+            <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" FontStyle="Italic">
+                Когда настанет полный Пэ<LineBreak/>
+                Вернём контроль над ИБП.<LineBreak/>                
             </TextBlock>
-            <TextBlock x:Name="Tb_Version" Text="Версия *.*.*" />
-            <Separator Margin="0,10"/>
-            <Label Content="Donate:" />
+            <TextBlock >
+                Не дай своему компьютеру потерять важные данные<LineBreak/>
+                в самый ответственный момент!<LineBreak/>
+                Всё что нужно - это ИБП марки Ippon (или совместимый),<LineBreak/>
+                и эта замечательная программка!<LineBreak/>
+            </TextBlock>
+            <TextBlock>
+                Copyright © 2020 Артем Галактионов <LineBreak/>
+                <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController" RequestNavigate="Hyperlink_RequestNavigate">
+                    Домашняя страница проекта на гитхабе
+                </Hyperlink>
+            </TextBlock>
+            <Separator Margin="0,5,0,10"/>
+            <Label Content="Автору на печеньки:" FontWeight="Bold" />
             <StackPanel Orientation="Horizontal">
-                <Label >
-                    <Label.Content>
-                        <fa:ImageAwesome x:Name="Fa_UpsSoundSwitch" Icon="Bitcoin" Width="25" Height="25" Foreground="Orange" />
-                    </Label.Content>
-                </Label>
+                <Label Content="BTC:" />
                 <TextBox x:Name="Tb_DonateBTC" Height="23" Text="bc1q5aptd289qsvrtsf9t2z42udda5t70e7hc39sc2" IsReadOnly="True" GotFocus="Tb_DonateBTC_GotFocus" Padding="0,0,10,0"/>
             </StackPanel>
         </StackPanel>

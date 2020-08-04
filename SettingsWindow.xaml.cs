@@ -42,9 +42,9 @@ namespace MegatecUpsController
             Chb_Settings_AlwaysOnTop.IsChecked = Settings.Default.alwaysOnTop;
             Chb_Settings_RunMinimized.IsChecked = Settings.Default.runMinimized;
 
-            if (Settings.Default.alwaysOnTop)
+            if (Settings.Default.alwaysOnTop) //вообще то это параметр для главного окна
             {
-                Topmost = true;
+                Topmost = true; //но мы станем главнее него
             }
             else
             {
@@ -146,14 +146,23 @@ namespace MegatecUpsController
             {
                 Tb_Settings_VID.Text = tmpVID;
                 Tb_Settings_PID.Text = tmpPID;
-                MessageBox.Show("ИБП не найден!", "Провал", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Random rand = new Random();
+                string[] helpfulPhrases = { 
+                    "Может выключить и включить?", 
+                    "Может шнур не до конца вставлен?", 
+                    "А у вас точно ИБП марки Ippon?", 
+                    "Ну теперь придётся ручками вводить VID и PID",
+                    "Советую глянуть в Диспетчере устройств, если что-нибудь похожее на HID-устройство",
+                    ""
+                };
+                MessageBox.Show("ИБП не найден! " + helpfulPhrases[rand.Next(0, helpfulPhrases.Length)], "Провал", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
                 Settings.Default.vid = Tb_Settings_VID.Text;
                 Settings.Default.pid = Tb_Settings_PID.Text;
                 Settings.Default.Save();
-                MessageBox.Show("ИБП найден и подключён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("ИБП найден и сохранён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -170,7 +179,7 @@ namespace MegatecUpsController
 
         private void PreviewTextInput_OnlyInt(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !char.IsDigit(e.Text, 0);
+            e.Handled = !char.IsDigit(e.Text, 0); //некоторые пользователи пишут цифры словами, были когда-то прецеденты
         }
 
         private void PreviewTextInput_OnlyFloat(object sender, TextCompositionEventArgs e)

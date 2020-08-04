@@ -1,13 +1,11 @@
 ﻿using FontAwesome.WPF;
 using log4net;
 using MegatecUpsController.Properties;
-using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
@@ -46,7 +44,7 @@ namespace MegatecUpsController
         {
             log4net.Config.XmlConfigurator.Configure();
 
-            for (int i = 0; i < xAxis.Length; i++)
+            for (int i = 0; i < xAxis.Length; i++) //заполняем ось X (время) графика от 0 до 59
                 xAxis[i] = i;
 
             if (Settings.Default.alwaysOnTop)
@@ -64,12 +62,11 @@ namespace MegatecUpsController
             MenuItem MainMenuItem = new MenuItem("Главное окно", new EventHandler(ShowMainWindow));
             MenuItem SettingsMenuItem = new MenuItem("Настройки", new EventHandler(ShowSettingsWindow));
             MenuItem AboutMenuItem = new MenuItem("О программе", new EventHandler(ShowAboutWindow));
-            MenuItem ExitMenuItem = new MenuItem("Выход", new EventHandler(ExitApp));
+            MenuItem ExitMenuItem = new MenuItem("Завершить", new EventHandler(ExitApp));
 
             trayIcon.Icon = Properties.Resources.AppIcon;
             trayIcon.Visible = true;
             trayIcon.ContextMenu = new ContextMenu(new MenuItem[] { MainMenuItem, SettingsMenuItem, AboutMenuItem, ExitMenuItem });
-            trayIcon.Text = "ToolTipText";
             trayIcon.DoubleClick +=
                 delegate (object sender, EventArgs args)
                 {
@@ -78,11 +75,11 @@ namespace MegatecUpsController
                 };
         }
 
-        private void TimerActionRefreshUI(object obj)
+        private void TimerActionRefreshUI(object obj) //TODO переделать на Binding
         {
             System.Windows.Application.Current.Dispatcher.Invoke(delegate
             {
-                if ((DateTime.Now - UpsData.LastUpdated).TotalSeconds > 10)
+                if ((DateTime.Now - UpsData.LastUpdated).TotalSeconds > 10) //иногда у ИБП случается затуп и он ничего не шлёт в ответ секунд 7. Больше уж да, что-то не то
                 {
                     Lbl_InputVoltage.Content = "???";
                     Lbl_OutputVoltage.Content = "???";
@@ -94,7 +91,7 @@ namespace MegatecUpsController
                     Lbl_CurVA.Content = "???";
                     Pb_BatteryLevel.Value = 0;
                     Lbl_BatteryVoltage.Content = "???";
-                    Lbl_PowerInfo.Content = "Нет данных от ИБП";
+                    Lbl_PowerInfo.Content = "Нет данных от ИБП...";
 
                     UpsData.InputVoltageHistory.Enqueue(0);
                     UpsData.OutputVoltageHistory.Enqueue(0);
@@ -129,12 +126,12 @@ namespace MegatecUpsController
                     if (UpsData.IsBeeperOn)
                     {
                         Fa_UpsSoundSwitch.Icon = FontAwesomeIcon.VolumeUp;
-                        Btn_UpsSoundSwitch.ToolTip = "Звук из ИБП (включён)";
+                        Btn_UpsSoundSwitch.ToolTip = "Пищалка ИБП (включёна)";
                     }
                     else
                     {
                         Fa_UpsSoundSwitch.Icon = FontAwesomeIcon.VolumeOff;
-                        Btn_UpsSoundSwitch.ToolTip = "Звук из ИБП (выключен)";
+                        Btn_UpsSoundSwitch.ToolTip = "Пищалка ИБП (выключена)";
                     }
 
                     if (UpsData.IsUtilityFail)
@@ -147,7 +144,7 @@ namespace MegatecUpsController
                     {
                         Lbl_PowerInfo.FontWeight = FontWeights.Normal;
                         Lbl_PowerInfo.Foreground = Brushes.Black;
-                        Lbl_PowerInfo.Content = "Питание: от сети";
+                        Lbl_PowerInfo.Content = "Питание: от розетки";
                     }
 
                     VoltageInputGraph.Plot(xAxis, UpsData.InputVoltageHistory);
@@ -157,7 +154,7 @@ namespace MegatecUpsController
                 if (UpsData.ConnectStatus)
                 {
                     El_UpsStatus.Fill = Brushes.LimeGreen;
-                    Lbl_BottomStatus.Content = "ИБП подключён";
+                    Lbl_BottomStatus.Content = "ИБП работает";
                     Lbl_RawInputData.Content = UpsData.RawInputData;
                 }
                 else
@@ -166,6 +163,8 @@ namespace MegatecUpsController
                     Lbl_BottomStatus.Content = "ИБП недоступен";
                     Lbl_RawInputData.Content = "";
                 }
+
+                trayIcon.Text = Lbl_BottomStatus.Content + ". " + Lbl_PowerInfo.Content + ". " + Lbl_AvrStatus.Content;
 
             });
         }
@@ -190,7 +189,7 @@ namespace MegatecUpsController
 
         private void MainForm_SourceInitialized(object sender, EventArgs e)
         {
-            var handle = new WindowInteropHelper(this).Handle;
+            var handle = new WindowInteropHelper(this).Handle; //это и ещё две строки в MainForm_Loaded - для нормальной обработки потери связи по USB
             UsbOps.usb.RegisterHandle(handle);
         }
 
@@ -248,7 +247,7 @@ namespace MegatecUpsController
 
         private void Menu_Help_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/Galakart/MegatecUpsController");
+            Process.Start("https://github.com/Galakart/MegatecUpsController"); //TODO обновить ссылку когда будет готов хелп
         }
 
         private void Menu_Close_Click(object sender, RoutedEventArgs e)

@@ -1,5 +1,5 @@
 
-# Megatec UPS controller
+# Megatec UPS Controller
 Приложение для контроля вашего ИБП на основе Megatec-протокола (Ippon и некоторые другие), подключаемого к компьютеру по USB, а также для управления питанием компьютера.
 
 ![Главное окно](/img/main.png "Главное окно")
@@ -20,7 +20,7 @@
 - NET Framework 4.7.2 и выше
 
 ## Эволюция (оно же История версий)
-> v1.0.0
+> v1.0.0  
 > первая версия программы
 
 ## Что оно умеет
@@ -43,13 +43,13 @@
 ## На чём же всё это построено
 - C# WPF в Microsoft Visual Studio 2019
 - внешний вид интерфейса - по мотивам программы [Energy Controller 2](https://sites.google.com/site/ibakhlab/News/energycontroller20582332200sp5 "Energy Controller 2")
-- библиотека UsbLibrary.dll - доработанная от [adelectronics.ru](https://adelectronics.ru/2016/11/22/usblibrary-c-usb-hid-library/ "adelectronics.ru") (изначальная блистала багами вроде невозможности видеть потерю связи с USB)
+- библиотека UsbLibrary.dll - доработанная от [adelectronics.ru](https://adelectronics.ru/2016/11/22/usblibrary-c-usb-hid-library/ "adelectronics.ru") (так как [изначальная](https://www.codeproject.com/Articles/18099/A-USB-HID-Component-for-C "изначальная") попила кровушки и блистала багами вроде невозможности видеть потерю связи с USB)
 - описание Megatec-протокола - от [networkupstools.org](https://networkupstools.org/protocols/megatec.html "networkupstools.org")
 - немногочисленные иконки - [FontAwesome](https://fontawesome.com/ "FontAwesome") (хотя тащить всю библиотеку ради пары иконок такое себе. Зато они масштабируются)
 - вывод графика - библиотека [InteractiveDataDisplay.WPF](https://github.com/microsoft/InteractiveDataDisplay.WPF "InteractiveDataDisplay.WPF")
 
 ## Про лицензию
-Для тех кто не осилил перевод лицензии Apache License 2.0, её краткая суть:
+Для тех кто не осилил перевод лицензии Apache License 2.0, её краткая неполная суть:
 - программа бесплатная
 - можно распространять и изменять
 - если распространили или изменили - укажите что поменяли и первоначального автора (меня :-) )

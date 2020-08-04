@@ -36,7 +36,7 @@ namespace MegatecUpsController
         private void PutVersion()
         {
             var version = Assembly.GetEntryAssembly().GetName().Version;
-            Tb_Version.Text = string.Format("{0} {1}.{2}.{3}", "Версия", version.Major, version.Minor, version.Build);
+            Tb_Version.Text = string.Format("v{0}.{1}.{2}", version.Major, version.Minor, version.Build);
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

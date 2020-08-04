@@ -21,18 +21,18 @@
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <Label x:Name="Lbl_RawInputData" Content="raw input data" ToolTip="Строка данных, полученная от ИБП" />
+                <Label x:Name="Lbl_RawInputData" Content="raw input data" ToolTip="Это пришло с ИБП" />
             </StatusBarItem>
         </StatusBar>
 
         <Menu DockPanel.Dock="Top" Background="White">
             <MenuItem Header="Файл">
-                <MenuItem x:Name="Menu_Close" Header="Выход" Click="Menu_Close_Click" ></MenuItem>
+                <MenuItem x:Name="Menu_Close" Header="Закрыть программку" Click="Menu_Close_Click" ></MenuItem>
             </MenuItem>
             <MenuItem Header="Опции" >
                 <MenuItem x:Name="Menu_Settings" Header="Настройки" Click="Menu_Settings_Click" />
             </MenuItem>
-            <MenuItem Header="Справка" >
+            <MenuItem Header="Помощь" >
                 <MenuItem x:Name="Menu_Help" Header="Онлайн-справка" Click="Menu_Help_Click" />
                 <MenuItem x:Name="Menu_About" Header="О программе" Click="Menu_About_Click" />
             </MenuItem>
@@ -159,7 +159,7 @@
             <GridSplitter Grid.Column="0" Grid.Row="1" ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 
             <Grid Grid.Column="0" Grid.Row="2">
-                <d3:Chart BottomTitle="Время" LeftTitle="Вольт" IsVerticalNavigationEnabled="False" IsHorizontalNavigationEnabled="False" Margin="0,5,5,0" PlotHeight="310" PlotWidth="60" LegendVisibility="Hidden" PlotOriginX="-0.5">
+                <d3:Chart BottomTitle="Время, сек." LeftTitle="Вольт" IsVerticalNavigationEnabled="False" IsHorizontalNavigationEnabled="False" Margin="0,5,5,0" PlotHeight="310" PlotWidth="60" LegendVisibility="Hidden" PlotOriginX="-0.5">
                     <d3:Plot x:Name="plot">
                         <d3:BarGraph x:Name="VoltageOutputGraph" Description="Uвых." Color="DeepSkyBlue" StrokeThickness="1" BarsWidth="1" />
                         <d3:LineGraph x:Name="VoltageInputGraph" Description="Uвх." Stroke="Red" StrokeThickness="3"  />

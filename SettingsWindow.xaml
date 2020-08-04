@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MegatecUpsController"
         mc:Ignorable="d"
-        Title="Настройки" Height="460" Width="395" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Настроеньки" Height="480" Width="395" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
 
     <DockPanel LastChildFill="True">
 
         <StatusBar DockPanel.Dock="Bottom" Height="35" FlowDirection="RightToLeft" Padding="10,0,0,0">
             <StatusBarItem>
-                <Button x:Name="Btn_SaveSettings" Width="90" Content="Сохранить" IsDefault="True" Click="Btn_SaveSettings_Click"/>
+                <Button x:Name="Btn_SaveSettings" Width="90" Content="Ок" IsDefault="True" Click="Btn_SaveSettings_Click"/>
             </StatusBarItem>
             <StatusBarItem>
                 <Button x:Name="Btn_Cancel" Width="90" Content="Отмена" Click="Btn_Cancel_Click"/>
@@ -20,9 +20,9 @@
 
         <Grid >
             <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="120" Width="140">
-                <GroupBox.Header>Usb подключение</GroupBox.Header>
+                <GroupBox.Header>USB-подключение</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
-                    <Button x:Name="Btn_SearchUps" Content="Найти ИБП" Click="Btn_SearchUps_Click" />
+                    <Button x:Name="Btn_SearchUps" Content="Найти ИБП" Click="Btn_SearchUps_Click" ToolTip="Ищет ИБП по некоторым заранее известным VID и PID. Если не нашёл - штош, ручками" />
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
                         <Label Content="VID (hex):" Margin="0,0,5,0" />
                         <TextBox x:Name="Tb_Settings_VID" Height="23" Width="50" Text="0665" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyInt" />
@@ -36,7 +36,7 @@
             </GroupBox>
 
             <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,10,0,0" Height="120" Width="215">
-                <GroupBox.Header>Действие ИБП</GroupBox.Header>
+                <GroupBox.Header>Что должен сделать ИБП</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <StackPanel Orientation="Horizontal" >
                         <Label Content="При разряде батареи до:" Margin="0,0,5,0" />
@@ -49,34 +49,34 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,135,0,0" Height="150" Width="300">
-                <GroupBox.Header>Параметры ИБП</GroupBox.Header>
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,135,0,0" Height="170" Width="300">
+                <GroupBox.Header>Тактико-технические характеристики ИБП</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                        <Label Content="Батарея, минимальный заряд, вольт:" Margin="0,0,5,0" />
+                        <Label Content="Минимальный заряд батареи, вольт:" Margin="0,0,5,0" />
                         <TextBox x:Name="Tb_Settings_BatteryVoltage_Min" Height="23" Width="40" Text="10.4" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
-                        <Label Content="Батарея, максимальный заряд, вольт:" Margin="0,0,5,0" />
+                        <Label Content="Максимальный заряд батареи, вольт:" Margin="0,0,5,0" />
                         <TextBox x:Name="Tb_Settings_BatteryVoltage_Max" Height="23" Width="40" Text="13.7" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
-                        <Label Content="Батарея, максимум вольт при нагрузке:" Margin="0,0,5,0" />
+                        <Label Content="Сколько вольт выдаёт заряженная &#10;на 100% батарея при нагрузке:" Margin="0,0,5,0" />
                         <TextBox x:Name="Tb_Settings_BatteryVoltage_MaxOnLoad" Height="23" Width="40" Text="12.5" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,3,0,0" >
-                        <Label Content="Мощность ИБП, вольт-ампер:" Margin="0,0,5,0" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" ToolTip="...обещают и врут" >
+                        <Label Content="Сколько мощности обещают &#10;в рекламе ИБП, вольт-ампер:" Margin="0,0,5,0" />
                         <TextBox x:Name="Tb_Settings_UpsVA" Height="23" Width="40" Text="1050" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,290,0,0" Height="93" Width="213">
-                <GroupBox.Header>Прочее</GroupBox.Header>
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,310,0,0" Height="93" Width="300">
+                <GroupBox.Header>Если пригодится</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <CheckBox x:Name="Chb_Settings_AlwaysOnTop" Content="Поверх всех окон" />
-                    <CheckBox x:Name="Chb_Settings_RunOnStartup" Content="Запускать при старте Windows" Margin="0,5,0,0"/>
-                    <CheckBox x:Name="Chb_Settings_RunMinimized" Content="Запускать свёрнутым" Margin="0,5,0,0"/>
+                    <CheckBox x:Name="Chb_Settings_RunOnStartup" Content="Запустить при старте Windows (я бы включил)" Margin="0,5,0,0"/>
+                    <CheckBox x:Name="Chb_Settings_RunMinimized" Content="Свернуть в трей при запуске" Margin="0,5,0,0"/>
                 </StackPanel>
             </GroupBox>
         </Grid>

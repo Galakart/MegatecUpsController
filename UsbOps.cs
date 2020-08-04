@@ -17,7 +17,7 @@ namespace MegatecUpsController
         private static readonly Timer timerUSB;
         private static string rawDataDecoded = "";
 
-        private static readonly byte[] comm_status = Encoding.ASCII.GetBytes("0Q1\r00000");
+        private static readonly byte[] comm_status = Encoding.ASCII.GetBytes("0Q1\r00000"); //буфер 9 байт, первый проглатывается, далее команда megatec-протокола, потом символ возврата строки, остальное нулями
         private static readonly byte[] comm_beeper = Encoding.ASCII.GetBytes("0Q\r000000");
 
         static UsbOps()
@@ -40,7 +40,6 @@ namespace MegatecUpsController
 
             usb.VendorId = vid;
             usb.ProductId = pid;
-
             usb.Open(true);
 
             if (usb.SpecifiedDevice != null)
@@ -93,23 +92,23 @@ namespace MegatecUpsController
 
         private static void Usb_OnDataSend(object sender, EventArgs e)
         {
-            //data sent
+            //нечего тут логировать, мы каждую секунду шлём данные
         }
 
         private static void Usb_OnDataRecieved(object sender, DataRecievedEventArgs args)
         {
             foreach (byte myData in args.data)
             {
-                if (myData != 0x00)
+                if (myData != 0x00) //иногда попадаются нулевые байты - игнорируем, засоряют только
                 {
                     char c = Convert.ToChar(myData);
-                    rawDataDecoded += c.ToString();
+                    rawDataDecoded += c.ToString(); //набиваем буферную строку
                 }
 
-                if (myData == 0x0D)
+                if (myData == 0x0D) //если пришёл символ возврата строки
                 {
-                    UpsData.UpdateData(rawDataDecoded);
-                    rawDataDecoded = "";
+                    UpsData.UpdateData(rawDataDecoded); //значит это конец буферной строки, отправляем её на обработку
+                    rawDataDecoded = ""; //и очищаем для приёма новой порции данных
                 }
             }
         }

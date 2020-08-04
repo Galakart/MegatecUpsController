@@ -4,6 +4,9 @@ namespace MegatecUpsController
 {
     static class Structures
     {
+        /// <summary>
+        /// Queue с фиксированной очередью. При превышении количества - самый первый добавленный будет убран
+        /// </summary>
         public sealed class SizedQueue<T> : Queue<T>
         {
             public int FixedCapacity { get; }
