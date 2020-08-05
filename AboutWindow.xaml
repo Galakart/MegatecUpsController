@@ -17,7 +17,7 @@
         </StatusBar>
 
         <StackPanel DockPanel.Dock="Left">
-            <Image x:Name="Img_Icon" Height="75" Width="75" Source="pack://siteoforigin:,,,/AppIcon.ico" VerticalAlignment="Top" Margin="0,10,0,0"/>
+            <Image x:Name="Img_Icon" Height="75" Width="75" Source="pack://application:,,,/Resources/AppIcon.ico" VerticalAlignment="Top" Margin="0,10,0,0"/>
             <TextBlock x:Name="Tb_Version" Text="v*.*.*" FontWeight="Bold" FontSize="20" Margin="5,0" TextAlignment="Center" />
         </StackPanel>
         

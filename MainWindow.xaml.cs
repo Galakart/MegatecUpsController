@@ -64,7 +64,7 @@ namespace MegatecUpsController
             MenuItem AboutMenuItem = new MenuItem("О программе", new EventHandler(ShowAboutWindow));
             MenuItem ExitMenuItem = new MenuItem("Завершить", new EventHandler(ExitApp));
 
-            trayIcon.Icon = Properties.Resources.AppIcon;
+            trayIcon.Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Resources/AppIcon.ico")).Stream);
             trayIcon.Visible = true;
             trayIcon.ContextMenu = new ContextMenu(new MenuItem[] { MainMenuItem, SettingsMenuItem, AboutMenuItem, ExitMenuItem });
             trayIcon.DoubleClick +=
