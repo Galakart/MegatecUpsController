@@ -91,7 +91,7 @@ namespace MegatecUpsController
                     Lbl_CurVA.Content = "???";
                     Pb_BatteryLevel.Value = 0;
                     Lbl_BatteryVoltage.Content = "???";
-                    Lbl_PowerInfo.Content = "Нет данных от ИБП...";
+                    Lbl_PowerInfo.Content = "Нет данных от ИБП";
 
                     UpsData.InputVoltageHistory.Enqueue(0);
                     UpsData.OutputVoltageHistory.Enqueue(0);

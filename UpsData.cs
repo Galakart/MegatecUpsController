@@ -54,6 +54,7 @@ namespace MegatecUpsController
 
         private static readonly ILog applog = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly ILog eventlog = LogManager.GetLogger("eventlog");
+        private static bool isGoingToHibernation = false;
 
         static UpsData()
         {
@@ -150,6 +151,13 @@ namespace MegatecUpsController
             {
                 CheckShutdownAction();
             }
+            else
+            {
+                if (isGoingToHibernation) //описание ниже в CheckShutdownAction()
+                {
+                    isGoingToHibernation = false;
+                }
+            }
         }
 
         private static void CheckShutdownAction()
@@ -162,7 +170,14 @@ namespace MegatecUpsController
                 }
                 else if (ShutdownAction == 1)
                 {
-                    PowerOps.HibernateComputer();
+                    // Если мы уже отправили один раз комп в гибернацию, то по возвращению он уйдёт в неё снова. 
+                    // Так что проверяем, если уже уходил (isGoingToHibernation = true), то не отправляем его туда снова.
+                    // isGoingToHibernation перезарядится в false при возвращении из гибернации и получения от ИБП статуса работы от розетки
+                    if (!isGoingToHibernation)
+                    {
+                        isGoingToHibernation = true;
+                        PowerOps.HibernateComputer();
+                    }
                 }
             }
         }

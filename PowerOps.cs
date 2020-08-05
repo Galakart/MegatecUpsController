@@ -12,8 +12,9 @@ namespace MegatecUpsController
         private static readonly ILog eventlog = LogManager.GetLogger("eventlog");
 
         public static void ShutdownComputer()
-        {
+        {            
             eventlog.Info("Выключение компьютера");
+            UsbOps.StopUsbTimer();
             ProcessingPower("shutdown", "/s /t 0");
         }
 
@@ -24,15 +25,16 @@ namespace MegatecUpsController
         }
 
         public static void RestartComputer()
-        {
+        {            
             eventlog.Info("Перезагрузка компьютера");
+            UsbOps.StopUsbTimer();
             ProcessingPower("shutdown", "/r /t 0");
         }
 
         private static void ProcessingPower(string command, string args)
         {
             try
-            {
+            {                
                 Process.Start(new ProcessStartInfo(command, args)
                 {
                     CreateNoWindow = true,
