@@ -247,7 +247,7 @@ namespace MegatecUpsController
 
         private void Menu_Help_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/Galakart/MegatecUpsController"); //TODO обновить ссылку когда будет готов хелп
+            Process.Start("https://github.com/Galakart/MegatecUpsController/wiki");
         }
 
         private void Menu_Close_Click(object sender, RoutedEventArgs e)
