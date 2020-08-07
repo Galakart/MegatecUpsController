@@ -36,6 +36,9 @@
             </TextBlock>
             <TextBlock>
                 Copyright © 2020 Артем Галактионов <LineBreak/>
+                <Hyperlink NavigateUri="mailto:galakart.android@gmail.com" RequestNavigate="Hyperlink_RequestNavigate">
+                    galakart.android@gmail.com
+                </Hyperlink><LineBreak/>
                 <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController" RequestNavigate="Hyperlink_RequestNavigate">
                     Домашняя страница проекта на гитхабе
                 </Hyperlink>

@@ -107,7 +107,7 @@
                     </StackPanel>
                     <TextBlock TextWrapping="Wrap" FontWeight="Bold">
                         ВНИМАНИЕ! Лучше не надо использовать тут пользователя root, это небезопасно! Создайте отдельного только для завершения работы!<LineBreak/>  
-                        <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController/wiki" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController/wiki/3.2.-Действие-по-SSH" RequestNavigate="Hyperlink_RequestNavigate">
                             Например вот так
                         </Hyperlink>
                     </TextBlock>

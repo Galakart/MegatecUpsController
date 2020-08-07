@@ -49,12 +49,22 @@ namespace MegatecUpsController
                     SshClient sshclient = new SshClient(Settings.Default.sshHost, Convert.ToInt32(Settings.Default.sshPort), Settings.Default.sshLogin, sshPassword);
                     sshclient.ConnectionInfo.Timeout = TimeSpan.FromSeconds(5);
                     sshclient.Connect();
-                    SshCommand sc = sshclient.CreateCommand("sleep 1 && " + Settings.Default.sshCommand);
-                    sc.Execute();
+                    if (Settings.Default.sshCommand.Length > 0)
+                    {
+                        SshCommand sc = sshclient.CreateCommand("sleep 1 && " + Settings.Default.sshCommand);
+                        sc.Execute();
+                    }                    
                     sshclient.Disconnect();
                     eventlog.Info("Команда по SSH отправлена");
-                }                
-
+                }
+            }
+            catch (Exception e)
+            {
+                applog.Error("Ssh command error. " + e.Message);
+            }
+            
+            try
+            {
                 Process.Start(new ProcessStartInfo(command, args)
                 {
                     CreateNoWindow = true,
@@ -64,7 +74,7 @@ namespace MegatecUpsController
             catch (Exception e)
             {
                 applog.Error("Processing power error. " + e.Message);
-            }            
+            }         
         }
 
     }

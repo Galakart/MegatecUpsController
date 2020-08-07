@@ -85,8 +85,7 @@ namespace MegatecUpsController
                 Tb_Settings_SshHost.Text.Length==0 || 
                 Tb_Settings_SshPort.Text.Length == 0 || 
                 Tb_Settings_SshLogin.Text.Length == 0 || 
-                Pb_Settings_SshPassword.Password.Length == 0 || 
-                Tb_Settings_SshCommand.Text.Length == 0
+                Pb_Settings_SshPassword.Password.Length == 0
                 ))
             {
                 MessageBox.Show("Ну раз уж включили SSH, то придётся заполнить все поля про подключение", "Провал", MessageBoxButton.OK, MessageBoxImage.Warning);
