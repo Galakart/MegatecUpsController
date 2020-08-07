@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MegatecUpsController.Properties;
+using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Windows;
 
 namespace MegatecUpsController
@@ -13,5 +10,63 @@ namespace MegatecUpsController
     /// </summary>
     public partial class App : Application
     {
+        App()
+        {
+            InitializeComponent();
+        }
+
+        [STAThread]
+        static void Main()
+        {
+            SingleInstanceManager manager = new SingleInstanceManager();
+            manager.Run(new[] { "megatecupscontroller" });
+        }
+    }
+    public class SingleInstanceManager : WindowsFormsApplicationBase
+    {
+        SingleInstanceApplication app;
+
+        public SingleInstanceManager()
+        {
+            this.IsSingleInstance = true;
+        }
+
+        protected override bool OnStartup(Microsoft.VisualBasic.ApplicationServices.StartupEventArgs e)
+        {
+            app = new SingleInstanceApplication();
+            app.Run();
+            return false;
+        }
+
+        protected override void OnStartupNextInstance(StartupNextInstanceEventArgs eventArgs)
+        {
+            base.OnStartupNextInstance(eventArgs);
+            app.Activate();
+        }
+    }
+
+    public class SingleInstanceApplication : Application
+    {
+        protected override void OnStartup(System.Windows.StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            MainWindow window = new MainWindow();
+            if (Settings.Default.runMinimized)
+            {
+                window.WindowState = WindowState.Minimized;
+                window.Show();
+                window.Hide();
+            }
+            else
+            {
+                window.Show();
+            }
+        }
+
+        public void Activate()
+        {
+            MainWindow.WindowState = WindowState.Normal;
+            MainWindow.Activate();
+        }
     }
 }

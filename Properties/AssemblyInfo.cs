@@ -8,11 +8,11 @@ using System.Windows;
 // набор атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("MegatecUpsController")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Control your Megatec-protocol-based UPS")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MegatecUpsController")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright © Artem Galaktionov 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -43,13 +43,15 @@ using System.Windows;
 
 // Сведения о версии для сборки включают четыре следующих значения:
 //
-//      Основной номер версии
-//      Дополнительный номер версии
-//      Номер сборки
-//      Номер редакции
+//      Основной номер версии           (крупные изменения в проекте)
+//      Дополнительный номер версии     (добавление новых фич)
+//      Номер сборки                    (исправление багов)
+//      Номер редакции                  (не используется)
 //
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: Guid("bd7e1e7c-d0e4-11ea-87d0-0242ac130003")]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]

@@ -1,0 +1,55 @@
+﻿<Window x:Class="MegatecUpsController.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MegatecUpsController"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Title="О программе" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+
+    <DockPanel LastChildFill="True">
+
+        <StatusBar DockPanel.Dock="Bottom" Height="35" FlowDirection="RightToLeft" Padding="8,0,0,0">
+            <StatusBarItem>
+                <Button x:Name="Btn_Ok" Width="90" Content="Ok" IsDefault="True" Click="Btn_Ok_Click" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <StackPanel DockPanel.Dock="Left">
+            <Image x:Name="Img_Icon" Height="75" Width="75" Source="pack://application:,,,/Resources/AppIcon.ico" VerticalAlignment="Top" Margin="0,10,0,0"/>
+            <TextBlock x:Name="Tb_Version" Text="v*.*.*" FontWeight="Bold" FontSize="20" Margin="5,0" TextAlignment="Center" />
+        </StackPanel>
+        
+
+        <StackPanel Orientation="Vertical" Margin="10">
+            <TextBlock Text="Megatec UPS Controller" FontWeight="Bold" FontSize="30" Margin="0,0,0,5" TextAlignment="Center" FontFamily="Monotype Corsiva" />
+            <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" FontStyle="Italic">
+                Когда настанет полный Пэ<LineBreak/>
+                Вернём контроль над ИБП.<LineBreak/>                
+            </TextBlock>
+            <TextBlock >
+                Не дай своему компьютеру потерять важные данные<LineBreak/>
+                в самый ответственный момент!<LineBreak/>
+                Всё что нужно - это ИБП марки Ippon (или совместимый),<LineBreak/>
+                и эта замечательная программка!<LineBreak/>
+            </TextBlock>
+            <TextBlock>
+                Copyright © 2020 Артем Галактионов <LineBreak/>
+                <Hyperlink NavigateUri="mailto:galakart.android@gmail.com" RequestNavigate="Hyperlink_RequestNavigate">
+                    galakart.android@gmail.com
+                </Hyperlink><LineBreak/>
+                <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController" RequestNavigate="Hyperlink_RequestNavigate">
+                    Домашняя страница проекта на гитхабе
+                </Hyperlink>
+            </TextBlock>
+            <Separator Margin="0,5,0,10"/>
+            <Label Content="Автору на печеньки:" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal">
+                <Label Content="BTC:" />
+                <TextBox x:Name="Tb_DonateBTC" Height="23" Text="bc1q5aptd289qsvrtsf9t2z42udda5t70e7hc39sc2" IsReadOnly="True" GotFocus="Tb_DonateBTC_GotFocus" Padding="0,0,10,0"/>
+            </StackPanel>
+        </StackPanel>
+
+    </DockPanel>
+</Window>
