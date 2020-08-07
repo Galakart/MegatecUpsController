@@ -154,5 +154,77 @@ namespace MegatecUpsController.Properties {
                 this["runMinimized"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool sshEnabled {
+            get {
+                return ((bool)(this["sshEnabled"]));
+            }
+            set {
+                this["sshEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string sshHost {
+            get {
+                return ((string)(this["sshHost"]));
+            }
+            set {
+                this["sshHost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("22")]
+        public string sshPort {
+            get {
+                return ((string)(this["sshPort"]));
+            }
+            set {
+                this["sshPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string sshLogin {
+            get {
+                return ((string)(this["sshLogin"]));
+            }
+            set {
+                this["sshLogin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string sshPassword {
+            get {
+                return ((string)(this["sshPassword"]));
+            }
+            set {
+                this["sshPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("poweroff")]
+        public string sshCommand {
+            get {
+                return ((string)(this["sshCommand"]));
+            }
+            set {
+                this["sshCommand"] = value;
+            }
+        }
     }
 }

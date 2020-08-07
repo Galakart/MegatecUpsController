@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MegatecUpsController"
         mc:Ignorable="d"
-        Title="Настроеньки" Height="480" Width="395" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Настроеньки" Height="485" Width="605" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
 
     <DockPanel LastChildFill="True">
 
@@ -31,7 +31,7 @@
                         <Label Content="PID (hex):" Margin="0,0,5,0" />
                         <TextBox x:Name="Tb_Settings_PID" Height="23" Width="50" Text="5161" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyInt" />
                     </StackPanel>
-                    
+
                 </StackPanel>
             </GroupBox>
 
@@ -71,7 +71,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,310,0,0" Height="93" Width="300">
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,310,0,0" Height="100" Width="300">
                 <GroupBox.Header>Если пригодится</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <CheckBox x:Name="Chb_Settings_AlwaysOnTop" Content="Поверх всех окон" />
@@ -79,7 +79,41 @@
                     <CheckBox x:Name="Chb_Settings_RunMinimized" Content="Свернуть в трей при запуске" Margin="0,5,0,0"/>
                 </StackPanel>
             </GroupBox>
+
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="315,135,0,0" Height="275" Width="270">
+                <GroupBox.Header>Действие по SSH</GroupBox.Header>
+                <StackPanel Orientation="Vertical" Margin="5,0,5,5">
+                    <Label Content="При завершении работы/гибернации:" />
+                    <CheckBox x:Name="Chb_Settings_SshEnabled" Content="Отправить команду на Linux-машину" Checked="Chb_Settings_SshEnabled_Checked" Unchecked="Chb_Settings_SshEnabled_Unchecked" />
+                    <StackPanel x:Name="Stp_SshControls" Orientation="Vertical" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0"  >
+                            <Label Content="адрес:" />
+                            <TextBox x:Name="Tb_Settings_SshHost" Height="23" Width="120"/>
+                            <Label Content="порт:" />
+                            <TextBox x:Name="Tb_Settings_SshPort" Height="23" Width="30" Text="22" PreviewTextInput="PreviewTextInput_OnlyInt" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0"  >
+                            <Label Content="логин:" />
+                            <TextBox x:Name="Tb_Settings_SshLogin" Height="23" Width="189"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0"  >
+                            <Label Content="пароль:" />
+                            <PasswordBox x:Name="Pb_Settings_SshPassword" PasswordChar="*" Height="23" Width="189"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0"  >
+                            <Label Content="команда:" />
+                            <TextBox x:Name="Tb_Settings_SshCommand" Height="23" Width="189" Text="poweroff"/>
+                        </StackPanel>                        
+                    </StackPanel>
+                    <TextBlock TextWrapping="Wrap" FontWeight="Bold">
+                        ВНИМАНИЕ! Лучше не надо использовать тут пользователя root, это небезопасно! Создайте отдельного только для завершения работы!<LineBreak/>  
+                        <Hyperlink NavigateUri="https://github.com/Galakart/MegatecUpsController/wiki" RequestNavigate="Hyperlink_RequestNavigate">
+                            Например вот так
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </GroupBox>
         </Grid>
-        
+
     </DockPanel>
 </Window>
