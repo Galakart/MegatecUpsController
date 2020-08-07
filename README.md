@@ -38,6 +38,7 @@
 + Выключение или гибернация компьютера при разряде батареи
 + Настройка напряжений батареи и мощности под ваш ИБП
 + Запись событий в текстовый файл
++ Отправка команды по SSH на удалённую Linux-машину, при завершении работы/гибернации
 
 ![Окно настроек](/img/settings.png "Окно настроек")
 
@@ -48,6 +49,7 @@
 - описание Megatec-протокола - от [networkupstools.org](https://networkupstools.org/protocols/megatec.html "networkupstools.org")
 - немногочисленные иконки - [FontAwesome](https://fontawesome.com/ "FontAwesome") (хотя тащить всю библиотеку ради пары иконок такое себе. Зато они масштабируются)
 - вывод графика - библиотека [InteractiveDataDisplay.WPF](https://github.com/microsoft/InteractiveDataDisplay.WPF "InteractiveDataDisplay.WPF")
+- работа с SSH - библиотека [SSH.NET](https://github.com/sshnet/SSH.NET "SSH.NET")
 
 ## Про лицензию
 Для тех кто не осилил перевод лицензии Apache License 2.0, её краткая неполная суть:
@@ -62,3 +64,4 @@ BTC: bc1q5aptd289qsvrtsf9t2z42udda5t70e7hc39sc2
 Удачи и бесперебойной работы!
 
 Copyright © 2020 Артем Галактионов
+galakart.android@gmail.com
