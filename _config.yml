@@ -1,0 +1,3 @@
+theme: jekyll-theme-cayman
+title: Megatec UPS Controller
+description: Приложение для контроля вашего ИБП на основе Megatec-протокола (Ippon и некоторые другие)
