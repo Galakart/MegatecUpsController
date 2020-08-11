@@ -2,7 +2,7 @@
 # Megatec UPS Controller
 Приложение для контроля вашего ИБП на основе Megatec-протокола (Ippon и некоторые другие), подключаемого к компьютеру по USB, а также для управления питанием компьютера.
 
-![Главное окно](https://github.com/Galakart/MegatecUpsController/blob/master/img/main.png "Главное окно")
+![Главное окно](https://raw.githubusercontent.com/Galakart/MegatecUpsController/master/img/main.png "Главное окно")
 
 ## История создания или зачем оно вообще сделано
 После того как дома уже третий день подряд вырубили электричество, терпение подошло к концу, и в ближайшем ДНСе был куплен мой первый ИБП IPPON Back Basic 1050 с возможностью подключения по USB.
@@ -40,7 +40,7 @@
 + Запись событий в текстовый файл
 + Отправка команды по SSH на удалённую Linux-машину, при завершении работы/гибернации
 
-![Окно настроек](https://github.com/Galakart/MegatecUpsController/blob/master/img/settings.png "Окно настроек")
+![Окно настроек](https://raw.githubusercontent.com/Galakart/MegatecUpsController/master/img/settings.png "Окно настроек")
 
 ## На чём же всё это построено
 - C# WPF в Microsoft Visual Studio 2019
