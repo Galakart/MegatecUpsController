@@ -222,8 +222,8 @@ namespace MegatecUpsController
 
         private void ShowAboutWindow(object sender, EventArgs e)
         {
-            AboutWindow about = new AboutWindow();
-            about.ShowDialog();
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
 
         private void ExitApp(object sender, EventArgs e)
@@ -250,10 +250,16 @@ namespace MegatecUpsController
             Process.Start("https://github.com/Galakart/MegatecUpsController/wiki");
         }
 
+        private void Menu_Update_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateWindow updateWindow = new UpdateWindow();
+            updateWindow.ShowDialog();
+        }
+
         private void Menu_Close_Click(object sender, RoutedEventArgs e)
         {
             ExitApp(null, null);
         }
-                
+        
     }
 }

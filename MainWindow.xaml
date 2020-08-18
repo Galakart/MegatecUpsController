@@ -11,7 +11,7 @@
 
     <DockPanel LastChildFill="True">
 
-        <StatusBar DockPanel.Dock="Bottom" Height="30">
+        <StatusBar DockPanel.Dock="Bottom" Height="33">
             <StatusBarItem>
                 <Ellipse x:Name="El_UpsStatus" Stroke="Black" StrokeThickness="2" Fill="Red" Width="15" Height="15" />
             </StatusBarItem>
@@ -22,6 +22,10 @@
             <Separator/>
             <StatusBarItem>
                 <Label x:Name="Lbl_RawInputData" Content="raw input data" ToolTip="Это пришло с ИБП" />
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="Tb_UpdateAvailable" Text="доступно обновление" PreviewMouseDown="Menu_Update_Click" FontWeight="Bold" TextDecorations="Underline" Foreground="Blue" Visibility="Hidden" />
             </StatusBarItem>
         </StatusBar>
 
@@ -34,6 +38,7 @@
             </MenuItem>
             <MenuItem Header="Помощь" >
                 <MenuItem x:Name="Menu_Help" Header="Онлайн-справка" Click="Menu_Help_Click" />
+                <MenuItem x:Name="Menu_Update" Header="Проверить обновления" Click="Menu_Update_Click" />
                 <MenuItem x:Name="Menu_About" Header="О программе" Click="Menu_About_Click" />
             </MenuItem>
         </Menu>

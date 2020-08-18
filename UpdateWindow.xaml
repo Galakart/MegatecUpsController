@@ -1,0 +1,40 @@
+﻿<Window x:Class="MegatecUpsController.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MegatecUpsController"
+        mc:Ignorable="d"
+        Title="Что там по новшествам" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" >
+
+    <DockPanel LastChildFill="True">
+
+        <StatusBar DockPanel.Dock="Bottom" Height="35" FlowDirection="RightToLeft" Padding="8,0,0,0">
+            <StatusBarItem>
+                <Button x:Name="Btn_Cancel" Width="90" Content="Отмена" Click="Btn_Cancel_Click" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <Button x:Name="Btn_Ok" Width="220" Content="Перейти на страницу загрузок" IsDefault="True" Click="Btn_Ok_Click" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <StackPanel Orientation="Vertical" Margin="10">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Content="Сейчас у вас версия:" />
+                <TextBlock x:Name="Tb_CurVersion" Text="*.*.*" FontWeight="Bold" FontSize="20" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Content="Последняя достуная версия:" />
+                <TextBlock x:Name="Tb_LatestVersion" Text="*.*.*" FontWeight="Bold" FontSize="20" />
+            </StackPanel>
+
+            <ScrollViewer Height="300" VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="Tb_Changelog" Width="300" TextWrapping="Wrap" Text="нет данных" />
+            </ScrollViewer>
+
+        </StackPanel>
+
+    </DockPanel>
+</Window>
