@@ -40,6 +40,7 @@ namespace MegatecUpsController
         public static SizedQueue<double> OutputVoltageHistory = new SizedQueue<double>(60);
 
         //Settings data
+        public static int UpsAction { private get; set; } //0 - при низком заряде, 1 - по напряжению
         public static int ShutdownAction { private get; set; } //0 - завершение работы, 1 - гибернация
         public static float ShutdownVoltage { private get; set; }
         public static float BatteryVoltageMax { private get; set; }
@@ -63,6 +64,7 @@ namespace MegatecUpsController
 
         private static void LoadSettings()
         {
+            UpsAction = Settings.Default.upsAction;
             ShutdownAction = Settings.Default.shutdownAction;
             ShutdownVoltage = float.Parse(Settings.Default.shutdownVoltage, CultureInfo.InvariantCulture.NumberFormat);
             BatteryVoltageMax = float.Parse(Settings.Default.batteryVoltage_max, CultureInfo.InvariantCulture.NumberFormat);
@@ -162,25 +164,39 @@ namespace MegatecUpsController
 
         private static void CheckShutdownAction()
         {
-            if (BatteryVoltage <= ShutdownVoltage)
+            if (UpsAction == 0)
             {
-                if (ShutdownAction == 0)
+                if (IsBatteryLow)
                 {
-                    PowerOps.ShutdownComputer();
+                    DoShutdownAction();
                 }
-                else if (ShutdownAction == 1)
+            }
+            else if (UpsAction == 1)
+            {
+                if (BatteryVoltage <= ShutdownVoltage)
                 {
-                    // Если мы уже отправили один раз комп в гибернацию, то по возвращению он уйдёт в неё снова. 
-                    // Так что проверяем, если уже уходил (isGoingToHibernation = true), то не отправляем его туда снова.
-                    // isGoingToHibernation перезарядится в false при возвращении из гибернации и получения от ИБП статуса работы от розетки
-                    if (!isGoingToHibernation)
-                    {
-                        isGoingToHibernation = true;
-                        PowerOps.HibernateComputer();
-                    }
+                    DoShutdownAction();
+                }
+            }            
+        }
+
+        private static void DoShutdownAction()
+        {
+            if (ShutdownAction == 0)
+            {
+                PowerOps.ShutdownComputer();
+            }
+            else if (ShutdownAction == 1)
+            {
+                // Если мы уже отправили один раз комп в гибернацию, то по возвращению он уйдёт в неё снова. 
+                // Так что проверяем, если уже уходил (isGoingToHibernation = true), то не отправляем его туда снова.
+                // isGoingToHibernation перезарядится в false при возвращении из гибернации и получения от ИБП статуса работы от розетки
+                if (!isGoingToHibernation)
+                {
+                    isGoingToHibernation = true;
+                    PowerOps.HibernateComputer();
                 }
             }
         }
-
     }
 }

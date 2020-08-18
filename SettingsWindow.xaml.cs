@@ -46,6 +46,14 @@ namespace MegatecUpsController
 
                 Cb_ShutdownAction.SelectedIndex = Settings.Default.shutdownAction;
                 Tb_ShutdownVoltage.Text = Settings.Default.shutdownVoltage;
+                if (Settings.Default.upsAction == 0)
+                {
+                    Rb_UpsAction_OnLow.IsChecked = true;
+                }
+                else if (Settings.Default.upsAction == 1)
+                {
+                    Rb_UpsAction_OnBatteryVoltage.IsChecked = true;
+                }
 
                 Chb_Settings_SshEnabled.IsChecked = Settings.Default.sshEnabled;
                 Tb_Settings_SshHost.Text = Settings.Default.sshHost;
@@ -93,7 +101,7 @@ namespace MegatecUpsController
             }
             
             try
-            {
+            {                
                 UpsData.ShutdownAction = Cb_ShutdownAction.SelectedIndex;
                 UpsData.ShutdownVoltage = float.Parse(Tb_ShutdownVoltage.Text, CultureInfo.InvariantCulture.NumberFormat);
                 UpsData.BatteryVoltageMax = float.Parse(Tb_Settings_BatteryVoltage_Max.Text, CultureInfo.InvariantCulture.NumberFormat);
@@ -111,6 +119,16 @@ namespace MegatecUpsController
 
                 Settings.Default.shutdownAction = Cb_ShutdownAction.SelectedIndex;
                 Settings.Default.shutdownVoltage = Tb_ShutdownVoltage.Text;
+                if ((bool)Rb_UpsAction_OnLow.IsChecked)
+                {
+                    Settings.Default.upsAction = 0;
+                    UpsData.UpsAction = 0;
+                } 
+                else if ((bool)Rb_UpsAction_OnBatteryVoltage.IsChecked)
+                {
+                    Settings.Default.upsAction = 1;
+                    UpsData.UpsAction = 1;
+                }
 
                 Settings.Default.sshEnabled = (bool)Chb_Settings_SshEnabled.IsChecked;
                 Settings.Default.sshHost = Tb_Settings_SshHost.Text;
@@ -255,5 +273,6 @@ namespace MegatecUpsController
         {
             Stp_SshControls.IsEnabled = false;
         }
+
     }
 }

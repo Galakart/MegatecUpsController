@@ -146,6 +146,14 @@ namespace MegatecUpsController
                         Lbl_PowerInfo.Foreground = Brushes.Black;
                         Lbl_PowerInfo.Content = "Питание: от розетки";
                     }
+                    if (UpsData.IsBatteryLow)
+                    {
+                        Lbl_LowBattery.Visibility = Visibility.Visible;
+                    } 
+                    else
+                    {
+                        Lbl_LowBattery.Visibility = Visibility.Collapsed;
+                    }
 
                     VoltageInputGraph.Plot(xAxis, UpsData.InputVoltageHistory);
                     VoltageOutputGraph.PlotBars(xAxis, UpsData.OutputVoltageHistory);

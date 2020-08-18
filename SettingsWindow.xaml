@@ -35,12 +35,15 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,10,0,0" Height="120" Width="215">
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,10,0,0" Height="120" Width="260">
                 <GroupBox.Header>Что должен сделать ИБП</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <StackPanel Orientation="Horizontal" >
-                        <Label Content="При разряде батареи до:" Margin="0,0,5,0" />
-                        <TextBox x:Name="Tb_ShutdownVoltage" Height="23" Width="40" Text="10.4" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat" />
+                        <RadioButton x:Name="Rb_UpsAction_OnLow" Content="При сигнале разряженной батареи" IsChecked="True" GroupName="Grp_UpsAction" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                        <RadioButton x:Name="Rb_UpsAction_OnBatteryVoltage" Content="При разряде батареи до, вольт:" GroupName="Grp_UpsAction" VerticalAlignment="Center" />
+                        <TextBox x:Name="Tb_ShutdownVoltage" Height="23" Width="40" Text="10.4" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat" Margin="5,0,0,0" />
                     </StackPanel>
                     <ComboBox x:Name="Cb_ShutdownAction" SelectedIndex="0" Margin="0,5,0,0" >
                         <ComboBoxItem Content="Завершение работы"/>

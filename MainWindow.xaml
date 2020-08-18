@@ -65,28 +65,28 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
+
                 <GroupBox Grid.Column="0" Grid.Row="0">
                     <GroupBox.Header>Uвх.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
                         <Label x:Name="Lbl_InputVoltage" Content="???" ToolTip="Входное напряжение, вольт" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
-                
+
                 <GroupBox Grid.Column="0" Grid.Row="1">
                     <GroupBox.Header>Uвых.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
                         <Label x:Name="Lbl_OutputVoltage" Content="???" ToolTip="Выходное напряжение, вольт" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
-                
+
                 <GroupBox Grid.Column="1" Grid.Row="0">
                     <GroupBox.Header>t.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
                         <Label x:Name="Lbl_Temperature" Content="???" ToolTip="Температура ИБП" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
-                
+
                 <GroupBox Grid.Column="1" Grid.Row="1">
                     <GroupBox.Header>Hz</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
@@ -127,7 +127,17 @@
                 <GroupBox Grid.Column="2" Grid.Row="1">
                     <GroupBox.Header>Инфо</GroupBox.Header>
                     <Viewbox Stretch="Uniform" VerticalAlignment="Top" Margin="0,5,0,0">
-                        <Label x:Name="Lbl_PowerInfo" Content="Нет данных от ИБП" />
+                        <StackPanel Orientation="Vertical">
+                            <Label x:Name="Lbl_PowerInfo" Content="Нет данных от ИБП" HorizontalAlignment="Center" />
+                            <Label x:Name="Lbl_LowBattery" Content="БАТАРЕЯ РАЗРЯЖЕНА!!!" HorizontalAlignment="Center" FontWeight="Bold" Visibility="Collapsed" >
+                                <Label.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                        <GradientStop Color="Red" Offset="1"/>
+                                        <GradientStop Color="White"/>
+                                    </LinearGradientBrush>
+                                </Label.Background>
+                            </Label>
+                        </StackPanel>
                     </Viewbox>
                 </GroupBox>
 
@@ -137,28 +147,28 @@
                         <Label x:Name="Lbl_LoadPercent" Content="???" ToolTip="Процент нагрузки" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
-                
+
                 <GroupBox Grid.Column="3" Grid.Row="1">
                     <GroupBox.Header>Iнагр.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
                         <Label x:Name="Lbl_CurAmper" Content="???" ToolTip="Сила тока нагрузки, ампер" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
-                
+
                 <GroupBox Grid.Column="4" Grid.Row="0">
                     <GroupBox.Header>Pнагр.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
                         <Label x:Name="Lbl_CurWatt" Content="???" ToolTip="Мощность, ватт" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
-                
+
                 <GroupBox Grid.Column="4" Grid.Row="1">
                     <GroupBox.Header>VAнагр.</GroupBox.Header>
                     <Viewbox Stretch="Uniform">
                         <Label x:Name="Lbl_CurVA" Content="???" ToolTip="Мощность, вольт-ампер" FontWeight="Bold" />
                     </Viewbox>
                 </GroupBox>
-                
+
             </Grid>
 
             <GridSplitter Grid.Column="0" Grid.Row="1" ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
