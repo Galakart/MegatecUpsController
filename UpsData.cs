@@ -56,6 +56,7 @@ namespace MegatecUpsController
         private static readonly ILog applog = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly ILog eventlog = LogManager.GetLogger("eventlog");
         private static bool isGoingToHibernation = false;
+        private static bool isCheckedOnce = false; // для выполнения действия 1 раз при первом получении данных от ИБП
 
         static UpsData()
         {
@@ -149,6 +150,12 @@ namespace MegatecUpsController
                 applog.Error("Error parsing UPS incoming data. " + e.Message);
             }
 
+            if (!isCheckedOnce)
+            {
+                CheckOnce();
+                isCheckedOnce = true;
+            }
+
             if (IsUtilityFail)
             {
                 CheckShutdownAction();
@@ -159,6 +166,18 @@ namespace MegatecUpsController
                 {
                     isGoingToHibernation = false;
                 }
+            }
+        }
+
+        private static void CheckOnce()
+        {
+            // после выключения ИБП забывает что бипер был выключен
+            // при подключении ИБП настройки бипера приводятся в соответствие с выбором в программе
+            if (Settings.Default.isBeeperOn != IsBeeperOn)
+            {
+                Settings.Default.isBeeperOn = !IsBeeperOn;
+                Settings.Default.Save();
+                UsbOps.SwitchUpsBeeper();
             }
         }
 
