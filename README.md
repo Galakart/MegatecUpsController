@@ -11,7 +11,7 @@
 ## Как начать это использовать?
 - Последнюю версию в виде zip-архива можно скачать по ссылке [https://github.com/Galakart/MegatecUpsController/releases/latest](https://github.com/Galakart/MegatecUpsController/releases/latest "ЗДЕСЬ")
 - Справочная система доступна здесь же на [Github Wiki](https://github.com/Galakart/MegatecUpsController/wiki "Github Wiki")
-- Эволюция (она же История версий) полностью описана в файле [CHANGELOG.md](https://github.com/Galakart/MegatecUpsController/blob/master/CHANGELOG.md "CHANGELOG.md")
+- Эволюция (она же История версий) описана в разделе релизов
 
 ## Что оно умеет
 + Красивое отображение получаемых от ИБП данных:
