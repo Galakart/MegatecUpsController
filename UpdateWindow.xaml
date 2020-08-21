@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MegatecUpsController"
         mc:Ignorable="d"
-        Title="Что там по новшествам" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" >
+        Title="Что там по новшествам" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" Loaded="Window_Loaded" >
 
     <DockPanel LastChildFill="True">
 
@@ -26,13 +26,15 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Content="Последняя достуная версия:" />
+                <Label Content="Последняя доступная версия:" />
                 <TextBlock x:Name="Tb_LatestVersion" Text="*.*.*" FontWeight="Bold" FontSize="20" />
             </StackPanel>
 
-            <ScrollViewer Height="300" VerticalScrollBarVisibility="Auto">
-                <TextBlock x:Name="Tb_Changelog" Width="300" TextWrapping="Wrap" Text="нет данных" />
-            </ScrollViewer>
+            <Border BorderBrush="Silver" BorderThickness="1" >
+                <ScrollViewer Height="300" VerticalScrollBarVisibility="Auto" >
+                    <TextBlock x:Name="Tb_Changelog" Width="300" TextWrapping="Wrap" Text="нет данных" />
+                </ScrollViewer>
+            </Border>
 
         </StackPanel>
 

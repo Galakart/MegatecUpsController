@@ -208,7 +208,6 @@ namespace MegatecUpsController
             HwndSource src = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             src.AddHook(new HwndSourceHook(WndProc));
             UsbOps.SetupUsbDevice(int.Parse(Settings.Default.vid, NumberStyles.AllowHexSpecifier), int.Parse(Settings.Default.pid, NumberStyles.AllowHexSpecifier));
-            
         }
 
         protected override void OnClosing(CancelEventArgs e)

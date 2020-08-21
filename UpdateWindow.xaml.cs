@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -15,6 +16,10 @@ namespace MegatecUpsController
         {
             InitializeComponent();
             PutCurVersion();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             getLatestVersionAndChangelog();
         }
 
@@ -40,11 +45,20 @@ namespace MegatecUpsController
             var result = string.Empty;
             using (var webClient = new WebClient())
             {
-                result = webClient.DownloadString("https://raw.githubusercontent.com/Galakart/MegatecUpsController/master/CHANGELOG.md");
+                webClient.Encoding = Encoding.UTF8;
+                try
+                {
+                    result = webClient.DownloadString("https://raw.githubusercontent.com/Galakart/MegatecUpsController/master/CHANGELOG");
+                    string latestVersion = result.Substring(0, result.IndexOf("\n"));
+                    Tb_LatestVersion.Text = latestVersion;
+                    Tb_Changelog.Text = result;
+                }
+                catch
+                {
+                    Tb_Changelog.Text = "Не удалось загрузить список изменений";
+                }                
             }
-            result = Encoding.UTF8.GetString(Encoding.Default.GetBytes(result));
-
-            Tb_Changelog.Text = result;
         }
+        
     }
 }
