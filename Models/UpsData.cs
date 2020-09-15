@@ -42,6 +42,7 @@ namespace MegatecUpsController
         //Settings data
         public static int UpsAction { private get; set; } //0 - при низком заряде, 1 - по напряжению
         public static int ShutdownAction { private get; set; } //0 - завершение работы, 1 - гибернация
+        public static int SecondsTillShutdownAction { private get; set; }
         public static float ShutdownVoltage { private get; set; }
         public static float BatteryVoltageMax { private get; set; }
         public static float BatteryVoltageMin { private get; set; }
@@ -68,6 +69,7 @@ namespace MegatecUpsController
             UpsAction = Settings.Default.upsAction;
             ShutdownAction = Settings.Default.shutdownAction;
             ShutdownVoltage = float.Parse(Settings.Default.shutdownVoltage, CultureInfo.InvariantCulture.NumberFormat);
+            SecondsTillShutdownAction = Convert.ToInt32(Settings.Default.shutdownActionTimeout);
             BatteryVoltageMax = float.Parse(Settings.Default.batteryVoltage_max, CultureInfo.InvariantCulture.NumberFormat);
             BatteryVoltageMin = float.Parse(Settings.Default.batteryVoltage_min, CultureInfo.InvariantCulture.NumberFormat);
             BatteryVoltageMaxOnLoad = float.Parse(Settings.Default.batteryVoltage_maxOnLoad, CultureInfo.InvariantCulture.NumberFormat);
@@ -166,6 +168,11 @@ namespace MegatecUpsController
                 {
                     isGoingToHibernation = false;
                 }
+
+                if (SecondsTillShutdownAction == 0)
+                {
+                    SecondsTillShutdownAction = Convert.ToInt32(Settings.Default.shutdownActionTimeout);
+                }
             }
         }
 
@@ -187,34 +194,42 @@ namespace MegatecUpsController
             {
                 if (IsBatteryLow)
                 {
-                    DoShutdownAction();
+                    TickDelayAndDoShutdownAction();
                 }
             }
             else if (UpsAction == 1)
             {
                 if (BatteryVoltage <= ShutdownVoltage)
                 {
-                    DoShutdownAction();
+                    TickDelayAndDoShutdownAction();
                 }
-            }            
+            }
         }
 
-        private static void DoShutdownAction()
+        private static void TickDelayAndDoShutdownAction()
         {
-            if (ShutdownAction == 0)
+            if (SecondsTillShutdownAction == 0)
             {
-                PowerOps.ShutdownComputer();
-            }
-            else if (ShutdownAction == 1)
-            {
-                // Если мы уже отправили один раз комп в гибернацию, то по возвращению он уйдёт в неё снова. 
-                // Так что проверяем, если уже уходил (isGoingToHibernation = true), то не отправляем его туда снова.
-                // isGoingToHibernation перезарядится в false при возвращении из гибернации и получения от ИБП статуса работы от розетки
-                if (!isGoingToHibernation)
+                if (ShutdownAction == 0)
                 {
-                    isGoingToHibernation = true;
-                    PowerOps.HibernateComputer();
+                    PowerOps.ShutdownComputer();
                 }
+                else if (ShutdownAction == 1)
+                {
+                    // Если мы уже отправили один раз комп в гибернацию, то по возвращению он уйдёт в неё снова. 
+                    // Так что проверяем, если уже уходил (isGoingToHibernation = true), то не отправляем его туда снова.
+                    // isGoingToHibernation перезарядится в false при возвращении из гибернации и получения от ИБП статуса работы от розетки
+                    if (!isGoingToHibernation)
+                    {
+                        isGoingToHibernation = true;
+                        PowerOps.HibernateComputer();
+                    }
+                }
+
+            }
+            else
+            {
+                SecondsTillShutdownAction--;
             }
         }
     }

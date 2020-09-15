@@ -54,6 +54,7 @@ namespace MegatecUpsController
                 {
                     Rb_UpsAction_OnBatteryVoltage.IsChecked = true;
                 }
+                Tb_Settings_ActionTimeout.Text = Settings.Default.shutdownActionTimeout;
 
                 Chb_Settings_SshEnabled.IsChecked = Settings.Default.sshEnabled;
                 Tb_Settings_SshHost.Text = Settings.Default.sshHost;
@@ -104,6 +105,7 @@ namespace MegatecUpsController
             {                
                 UpsData.ShutdownAction = Cb_ShutdownAction.SelectedIndex;
                 UpsData.ShutdownVoltage = float.Parse(Tb_ShutdownVoltage.Text, CultureInfo.InvariantCulture.NumberFormat);
+                UpsData.SecondsTillShutdownAction = Convert.ToInt32(Tb_Settings_ActionTimeout.Text);
                 UpsData.BatteryVoltageMax = float.Parse(Tb_Settings_BatteryVoltage_Max.Text, CultureInfo.InvariantCulture.NumberFormat);
                 UpsData.BatteryVoltageMin = float.Parse(Tb_Settings_BatteryVoltage_Min.Text, CultureInfo.InvariantCulture.NumberFormat);
                 UpsData.BatteryVoltageMaxOnLoad = float.Parse(Tb_Settings_BatteryVoltage_MaxOnLoad.Text, CultureInfo.InvariantCulture.NumberFormat);
@@ -129,6 +131,7 @@ namespace MegatecUpsController
                     Settings.Default.upsAction = 1;
                     UpsData.UpsAction = 1;
                 }
+                Settings.Default.shutdownActionTimeout = Tb_Settings_ActionTimeout.Text;
 
                 Settings.Default.sshEnabled = (bool)Chb_Settings_SshEnabled.IsChecked;
                 Settings.Default.sshHost = Tb_Settings_SshHost.Text;

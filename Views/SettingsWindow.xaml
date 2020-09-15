@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MegatecUpsController"
         mc:Ignorable="d"
-        Title="Настроеньки" Height="485" Width="605" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Настроеньки" Height="505" Width="605" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
 
     <DockPanel LastChildFill="True">
 
@@ -19,7 +19,7 @@
         </StatusBar>
 
         <Grid >
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="120" Width="140">
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="140" Width="140">
                 <GroupBox.Header>USB-подключение</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <Button x:Name="Btn_SearchUps" Content="Найти ИБП" Click="Btn_SearchUps_Click" ToolTip="Ищет ИБП по некоторым заранее известным VID и PID. Если не нашёл - штош, ручками" />
@@ -35,7 +35,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,10,0,0" Height="120" Width="260">
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,10,0,0" Height="140" Width="260">
                 <GroupBox.Header>Что должен сделать ИБП</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <StackPanel Orientation="Horizontal" >
@@ -45,6 +45,10 @@
                         <RadioButton x:Name="Rb_UpsAction_OnBatteryVoltage" Content="При разряде батареи до, вольт:" GroupName="Grp_UpsAction" VerticalAlignment="Center" />
                         <TextBox x:Name="Tb_ShutdownVoltage" Height="23" Width="40" Text="10.4" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyFloat" Margin="5,0,0,0" />
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+                        <Label Content="С задержкой, сек:" />
+                        <TextBox x:Name="Tb_Settings_ActionTimeout" Height="23" Width="40" Text="30" ToolTip="Лучше не ставить тут больше 60 секунд. На остатке заряда комп ещё должен успеть выключиться" LostFocus="LostFocus_ZeroWhenEmpty" PreviewTextInput="PreviewTextInput_OnlyInt" />
+                    </StackPanel>
                     <ComboBox x:Name="Cb_ShutdownAction" SelectedIndex="0" Margin="0,5,0,0" >
                         <ComboBoxItem Content="Завершение работы"/>
                         <ComboBoxItem Content="Гибернация"/>
@@ -52,7 +56,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,135,0,0" Height="170" Width="300">
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,155,0,0" Height="170" Width="300">
                 <GroupBox.Header>Тактико-технические характеристики ИБП</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
@@ -74,7 +78,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,310,0,0" Height="100" Width="300">
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,330,0,0" Height="100" Width="300">
                 <GroupBox.Header>Если пригодится</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5">
                     <CheckBox x:Name="Chb_Settings_AlwaysOnTop" Content="Поверх всех окон" />
@@ -83,7 +87,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="315,135,0,0" Height="275" Width="270">
+            <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="315,155,0,0" Height="275" Width="270">
                 <GroupBox.Header>Действие по SSH</GroupBox.Header>
                 <StackPanel Orientation="Vertical" Margin="5,0,5,5">
                     <Label Content="При завершении работы/гибернации:" />
