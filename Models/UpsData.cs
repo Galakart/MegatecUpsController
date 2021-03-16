@@ -113,6 +113,18 @@ namespace MegatecUpsController
                     }
                 }
 
+                if (IsUtilityFail != BinaryStatus[0].Equals('1'))
+                {
+                    if (IsUtilityFail)
+                    {
+                        eventlog.Info("Внешнее питание восстановлено");
+                    }
+                    else
+                    {
+                        eventlog.Info("ВНЕШНЕЕ ПИТАНИЕ ОТКЛЮЧЕНО! ПЕРЕХОД НА ПИТАНИЕ ОТ БАТАРЕИ!");
+                    }
+                }
+
                 IsUtilityFail = BinaryStatus[0].Equals('1');
                 IsBatteryLow = BinaryStatus[1].Equals('1');
                 IsActiveAVR = BinaryStatus[2].Equals('1');
