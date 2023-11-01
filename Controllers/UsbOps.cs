@@ -17,7 +17,7 @@ namespace MegatecUpsController
         private static readonly Timer timerUSB;
         private static string rawDataDecoded = "";
 
-        private static readonly byte[] comm_status = Encoding.ASCII.GetBytes("0Q1\r00000"); //буфер 9 байт, первый проглатывается, далее команда megatec-протокола, потом символ возврата строки, остальное нулями
+        private static readonly byte[] comm_status = Encoding.ASCII.GetBytes("0QS\r00000"); //буфер 9 байт, первый проглатывается, далее команда megatec-протокола, потом символ возврата строки, остальное нулями
         private static readonly byte[] comm_beeper = Encoding.ASCII.GetBytes("0Q\r000000");
 
         static UsbOps()

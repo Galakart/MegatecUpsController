@@ -87,19 +87,48 @@ namespace MegatecUpsController
             try
             {
                 RawInputData = RawData;
-
-                RawData = RawData.Replace("(", "");
-                string[] arrayOfData = RawData.Split();
-
-                InputVoltage = float.Parse(arrayOfData[0], CultureInfo.InvariantCulture.NumberFormat);
-                InputVoltageLastFault = float.Parse(arrayOfData[1], CultureInfo.InvariantCulture.NumberFormat);
-                OutputVoltage = float.Parse(arrayOfData[2], CultureInfo.InvariantCulture.NumberFormat);
-                LoadPercent = Convert.ToInt32(arrayOfData[3]);
-                Hz = float.Parse(arrayOfData[4], CultureInfo.InvariantCulture.NumberFormat);
-                BatteryVoltage = float.Parse(arrayOfData[5], CultureInfo.InvariantCulture.NumberFormat);
-                Temperature = float.Parse(arrayOfData[6], CultureInfo.InvariantCulture.NumberFormat);
-                BinaryStatus = arrayOfData[7];
-
+                RawInputData = RawInputData.Remove(0, RawInputData.IndexOf("(") + 1);
+                string[] arrayOfData = RawInputData.Split(' ');
+                try
+                {
+                    InputVoltage = float.Parse(arrayOfData[0], CultureInfo.InvariantCulture.NumberFormat);
+                }
+                catch { };
+                try
+                {
+                    InputVoltageLastFault = float.Parse(arrayOfData[1], CultureInfo.InvariantCulture.NumberFormat);
+                }
+                catch { };
+                try
+                {
+                    OutputVoltage = float.Parse(arrayOfData[2], CultureInfo.InvariantCulture.NumberFormat);
+                }
+                catch { };
+                try
+                {
+                    LoadPercent = Convert.ToInt32(arrayOfData[3]);
+                }
+                catch { };
+                try
+                {
+                    Hz = float.Parse(arrayOfData[4], CultureInfo.InvariantCulture.NumberFormat);
+                }
+                catch { };
+                try
+                {
+                    BatteryVoltage = float.Parse(arrayOfData[5], CultureInfo.InvariantCulture.NumberFormat);
+                }
+                catch { };
+                try
+                {
+                    Temperature = float.Parse(arrayOfData[6], CultureInfo.InvariantCulture.NumberFormat);
+                }
+                catch { };
+                try
+                {
+                    BinaryStatus = arrayOfData[7];
+                }
+                catch { };
 
                 if (IsActiveAVR != BinaryStatus[2].Equals('1')) //если старый статус AVR не равен новому
                 {
@@ -161,7 +190,7 @@ namespace MegatecUpsController
             }
             catch (Exception e)
             {
-                applog.Error("Error parsing UPS incoming data. " + e.Message);
+                applog.Error("Error parsing UPS incoming data ->" + RawInputData + "<-:" + e.Message);
             }
 
             if (!isCheckedOnce)
