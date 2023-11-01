@@ -1,16 +1,17 @@
 
 # Megatec UPS Controller
-Приложение для контроля вашего ИБП на основе Megatec-протокола (Ippon и некоторые другие), подключаемого к компьютеру по USB, а также для управления питанием компьютера.
+Приложение для контроля вашего ИБП на основе модифицированного протокола Megatec (Ippon и некоторые другие), подключаемого к компьютеру по USB, а также для управления питанием компьютера.
+В данной версии - совместим как минимум с PowerMust 636 UPS (для него, собственно и создавался форк оригинального репо, поскольку используемый данным ИБП протокол отличается от оригинального Megatec).
+Так-же рекомендуется, при необходимости, попробовать оригинальную программу, если с данной версией ваш ИБП не определился но теоретичесски должен поддерживать протокол Megatec.
 
-![Главное окно](https://raw.githubusercontent.com/Galakart/MegatecUpsController/master/img/main.png "Главное окно")
+![Главное окно](https://raw.githubusercontent.com/smart-cn/MegatecUpsController/master/img/main.png "Главное окно")
 
 ## Требования к ОС
 - Windows 7 и выше
 - NET Framework 4.7.2 и выше
 
 ## Как начать это использовать?
-- Последнюю версию в виде zip-архива можно скачать по ссылке [https://github.com/Galakart/MegatecUpsController/releases/latest](https://github.com/Galakart/MegatecUpsController/releases/latest "ЗДЕСЬ")
-- Справочная система доступна здесь же на [Github Wiki](https://github.com/Galakart/MegatecUpsController/wiki "Github Wiki")
+- Последнюю версию в виде zip-архива можно скачать по ссылке [https://github.com/smart-cn/MegatecUpsController/releases/latest](https://github.com/smart-cn/MegatecUpsController/releases/latest "ЗДЕСЬ")
 - Эволюция (она же История версий) описана в разделе релизов
 
 ## Что оно умеет
@@ -29,7 +30,7 @@
 + Запись событий в текстовый файл
 + Отправка команды по SSH на удалённую Linux-машину, при завершении работы/гибернации
 
-![Окно настроек](https://raw.githubusercontent.com/Galakart/MegatecUpsController/master/img/settings.png "Окно настроек")
+![Окно настроек](https://raw.githubusercontent.com/smart-cn/MegatecUpsController/master/img/settings.png "Окно настроек")
 
 ## История создания или зачем оно вообще сделано
 После того как дома уже третий день подряд вырубили электричество, терпение подошло к концу, и в ближайшем ДНСе был куплен мой первый ИБП IPPON Back Basic 1050 с возможностью подключения по USB.
@@ -51,17 +52,8 @@
 - вывод графика - библиотека [InteractiveDataDisplay.WPF](https://github.com/microsoft/InteractiveDataDisplay.WPF "InteractiveDataDisplay.WPF")
 - работа с SSH - библиотека [SSH.NET](https://github.com/sshnet/SSH.NET "SSH.NET")
 
-## Про лицензию
-Для тех кто не осилил перевод лицензии Apache License 2.0, её краткая неполная суть:
+## Другое
 - программа бесплатная
 - можно распространять и изменять
-- если распространили или изменили - укажите что поменяли и первоначального автора (меня :-) )
+- если распространили или изменили - укажите что поменяли и первоначального автора
 - программа поставляется как есть, автор не даёт никаких гарантий безошибочной работы, не оказывает техническую поддержку, не несёт никакой ответственности за потерянные данные, сгоревшие компы, взорванные ИБП и тому подобное.
-
-**Однако вы всегда можете скинуться автору на печеньки:**  
-BTC: bc1q5aptd289qsvrtsf9t2z42udda5t70e7hc39sc2
-
-Удачи и бесперебойной работы!
-
-Copyright © 2020 Артем Галактионов  
-galakart.android@gmail.com
