@@ -81,7 +81,7 @@ jobs:
          project_name: ${{ env.project_name}}
          configuration: ${{ matrix.configuration }}
       with:
-        name: ${{ env.project_name }}
+        name: ${{ env.project_name }}-${{ matrix.configuration }}
         path: |
           bin/${{ matrix.configuration }}/
         if-no-files-found: error
